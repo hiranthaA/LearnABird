@@ -29,12 +29,12 @@ public class DetailActivity extends AppCompatActivity {
         tv_birdDetails.setMovementMethod(new ScrollingMovementMethod());
 
         final Bundle bundle = getIntent().getExtras();
-        if(bundle!=null){
+        if (bundle != null) {
             tv_birdName.setText(bundle.getString("birdName"));
             iv_imgPreview.setImageResource(bundle.getInt("birdPic"));
             tv_birdDetails.setText(bundle.getString("birdDetails"));
-            getSupportActionBar().setTitle("Learn A Bird : "+bundle.getString("birdName"));
-            mediaPlayer = (MediaPlayer) MediaPlayer.create(this,bundle.getInt("birdSounds"));
+            getSupportActionBar().setTitle("Learn A Bird : " + bundle.getString("birdName"));
+            mediaPlayer = (MediaPlayer) MediaPlayer.create(this, bundle.getInt("birdSounds"));
         }
 
         btn_playSound.setOnClickListener(new View.OnClickListener() {
@@ -44,4 +44,24 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mediaPlayer.stop();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mediaPlayer.pause();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        mediaPlayer.start();
+    }
 }
+
+
