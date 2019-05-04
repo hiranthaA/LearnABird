@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity {
     private String[] arrBirdNames;
     private int[] arrBirdPics;
     private String[] arrBirdDetails;
+    private int[] arrBirdSounds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,14 @@ public class MainActivity extends AppCompatActivity {
                 R.mipmap.img_crane,
         };
 
+        arrBirdSounds = new int[]{
+                R.raw.parrot,
+                R.raw.crow,
+                R.raw.pigeon,
+                R.raw.eagle,
+                R.raw.crane,
+        };
+
         arrBirdDetails = new String[]{
                 "Parrots are members of the order Psittaciformes, which includes more than 350 bird species, including parakeets, macaws, cockatiels and cockatoos, according to the Integrated Taxonomic Information System (ITIS). Though there are many types of parrots, all parrot species have a few traits in common. For example, to be classified as a parrot, the bird must have a curved beak, and its feet must be zygodactyl, which means there are four toes on each foot with two toes that point forward and two that point backward.",
                 "Crows are black birds known for their intelligence and adaptability, and for their loud, harsh \"caw.\" They also have a reputation for damaging crops; however, their impact may be less than previously thought. \n" +
@@ -64,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("birdName",arrBirdNames[position]);
                 intent.putExtra("birdPic",arrBirdPics[position]);
                 intent.putExtra("birdDetails",arrBirdDetails[position]);
+                intent.putExtra("birdSounds",arrBirdSounds[position]);
                 startActivity(intent);
             }
         });
