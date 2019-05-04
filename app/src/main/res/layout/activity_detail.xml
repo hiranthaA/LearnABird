@@ -34,4 +34,31 @@
         android:layout_marginBottom="410dp"
         android:textAlignment="center"
         tools:text="@string/lbl_bird_name" />
+
+    <TextView
+        android:id="@+id/txt_birdDetails"
+        android:layout_width="match_parent"
+        android:layout_height="344dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="1dp"
+        android:padding="10dp"
+        android:scrollbars="vertical"
+        tools:text="@string/lbl_bird_details" />
+
+    <Button
+        android:id="@+id/btn_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="143dp"
+        android:layout_marginRight="143dp"
+        android:layout_marginBottom="357dp"
+        android:text="Play" />
+
 </RelativeLayout>
