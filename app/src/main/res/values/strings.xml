@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Learn A Bird</string>
+    <string name="lbl_bird_name">Bird Name</string>
+    <string name="lbl_bird_img_view">Bord Image</string>
 </resources>

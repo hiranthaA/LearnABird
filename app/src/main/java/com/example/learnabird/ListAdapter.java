@@ -8,13 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 public class ListAdapter extends ArrayAdapter {
 
-    String[] birdNames;
-    int[] birdPics;
-    Context context;
+    private String[] birdNames;
+    private int[] birdPics;
+    private Context context;
 
     public ListAdapter(Context context, String[] names, int[] pics) {
         super(context, R.layout.list_view_item);

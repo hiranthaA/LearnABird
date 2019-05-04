@@ -7,8 +7,8 @@ import android.widget.TextView;
 
 public class DetailActivity extends AppCompatActivity {
 
-    ImageView iv_imgPreview;
-    TextView tv_birdName;
+    private ImageView iv_imgPreview;
+    private TextView tv_birdName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
