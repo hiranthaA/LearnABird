@@ -26,6 +26,9 @@ public class AddBird extends AppCompatActivity {
     ImageButton btnCamera;
     ImageButton btnImageBrowse;
     ImageView imgPreview;
+    ImageButton btnPlayStop;
+    ImageButton btnRecStop;
+    ImageButton btnSoundBrowse;
     Uri img_uri;
 
     @Override
@@ -36,6 +39,9 @@ public class AddBird extends AppCompatActivity {
         btnCamera = findViewById(R.id.btn_camera);
         imgPreview = findViewById(R.id.img_bird);
         btnImageBrowse = findViewById(R.id.btn_imageBrowse);
+        btnPlayStop = findViewById(R.id.btn_play);
+        btnRecStop = findViewById(R.id.btn_record);
+        btnSoundBrowse = findViewById(R.id.btn_soundBrowse);
 
 
         btnCamera.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +78,27 @@ public class AddBird extends AppCompatActivity {
                 else{
                     pickImageFromGallery();
                 }
+            }
+        });
+
+        btnPlayStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        btnRecStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        btnSoundBrowse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
             }
         });
 
