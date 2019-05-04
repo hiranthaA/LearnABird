@@ -56,12 +56,6 @@ public class DetailActivity extends AppCompatActivity {
         super.onPause();
         mediaPlayer.pause();
     }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        mediaPlayer.start();
-    }
 }
 
 
