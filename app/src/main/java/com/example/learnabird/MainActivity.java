@@ -2,14 +2,17 @@ package com.example.learnabird;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private ListView lstBirds;
+    private FloatingActionButton fabAddBirds;
     private String[] arrBirdNames;
     private int[] arrBirdPics;
     private String[] arrBirdDetails;
@@ -25,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setIcon(R.drawable.ic_launcher_background);
 
         lstBirds = findViewById(R.id.lstBirds);
+        fabAddBirds = findViewById(R.id.fab_add_bird);
 
         arrBirdNames = new String[]{
                 "Parrot",
@@ -74,6 +78,14 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("birdPic",arrBirdPics[position]);
                 intent.putExtra("birdDetails",arrBirdDetails[position]);
                 intent.putExtra("birdSounds",arrBirdSounds[position]);
+                startActivity(intent);
+            }
+        });
+
+        fabAddBirds.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,AddBird.class);
                 startActivity(intent);
             }
         });
