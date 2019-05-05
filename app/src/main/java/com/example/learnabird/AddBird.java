@@ -173,6 +173,14 @@ public class AddBird extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mediaPlayer !=null && mediaPlayer.isPlaying()){
+            mediaPlayer.stop();
+        }
+    }
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void recordSound(){
         if(recStatus){
@@ -195,7 +203,6 @@ public class AddBird extends AppCompatActivity {
         }
         else{
             //while not recording press button
-
             if(mediaPlayer!=null && mediaPlayer.isPlaying()){
                 mediaPlayer.stop();
                 mediaPlayer.release();
