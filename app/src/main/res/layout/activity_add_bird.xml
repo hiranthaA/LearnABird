@@ -115,19 +115,6 @@
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/btn_soundBrowse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="12dp"
-        android:layout_marginRight="12dp"
-        android:layout_marginBottom="136dp"
-
-        android:text="@string/btn_text_browse" />
-
-    <Button
         android:id="@+id/btn_addBird"
         android:layout_width="332dp"
         android:layout_height="wrap_content"
@@ -140,14 +127,14 @@
         android:text="@string/btn_text_add_bird" />
 
     <TextView
-        android:id="@+id/textView6"
-        android:layout_width="170dp"
+        android:id="@+id/txt_rec_file_name"
+        android:layout_width="269dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="112dp"
-        android:layout_marginRight="112dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginRight="13dp"
         android:layout_marginBottom="148dp"
         android:text="@string/lbl_sound_file_name"
         android:textSize="18sp" />
@@ -177,4 +164,43 @@
         android:layout_marginBottom="316dp"
         android:backgroundTint="@color/colorPrimary"
         app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+    <ImageButton
+        android:id="@+id/btn_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="226dp"
+        android:layout_marginRight="226dp"
+        android:layout_marginBottom="93dp"
+        android:backgroundTint="@color/colorPrimary"
+        app:srcCompat="@android:drawable/ic_media_play" />
+
+    <ImageButton
+        android:id="@+id/btn_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="166dp"
+        android:layout_marginRight="166dp"
+        android:layout_marginBottom="93dp"
+        android:backgroundTint="@color/colorPrimary"
+        app:srcCompat="@android:drawable/ic_btn_speak_now" />
+
+    <ImageButton
+        android:id="@+id/btn_soundBrowse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="107dp"
+        android:layout_marginRight="107dp"
+        android:layout_marginBottom="93dp"
+        android:backgroundTint="@color/colorPrimary"
+        app:srcCompat="@android:drawable/ic_menu_upload_you_tube" />
 </RelativeLayout>
