@@ -21,9 +21,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nbsp.materialfilepicker.MaterialFilePicker;
+import com.nbsp.materialfilepicker.ui.FilePickerActivity;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 public class AddBird extends AppCompatActivity {
 
@@ -32,6 +36,7 @@ public class AddBird extends AppCompatActivity {
     private static final int PERMISSION_CODE_SOUND_RECODING = 1004;
     private static final int IMAGE_PICK_CODE = 1002;
     private static final int IMAGE_CAPTURE_CODE = 1003;
+    private static final int AUDIO_FILE_BROWSE_CODE = 1005;
 
     ImageButton btnCamera;
     ImageButton btnImageBrowse;
@@ -40,7 +45,7 @@ public class AddBird extends AppCompatActivity {
     ImageButton btnRecStop;
     ImageButton btnSoundBrowse;
     Uri img_uri;
-    String recPathSave = "";
+    String recFilePath = "";
     MediaRecorder mediaRecorder;
     MediaPlayer mediaPlayer;
     boolean recStatus = false;
@@ -61,7 +66,6 @@ public class AddBird extends AppCompatActivity {
         btnRecStop = findViewById(R.id.btn_record);
         btnSoundBrowse = findViewById(R.id.btn_soundBrowse);
         txtRecFileName = findViewById(R.id.txt_rec_file_name);
-
 
         btnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,15 +113,18 @@ public class AddBird extends AppCompatActivity {
                         mediaPlayer.release();
                     }
                     playStatus = false;
+                    btnPlayStop.setImageResource(R.drawable.ic_play_white_32dp);
+                    Toast.makeText(AddBird.this,"Sound preview stopped.",Toast.LENGTH_SHORT).show();
                 }
                 else{
                     mediaPlayer = new MediaPlayer();
                     try {
-                        mediaPlayer.setDataSource(recPathSave);
+                        mediaPlayer.setDataSource(recFilePath);
                         mediaPlayer.prepare();
                         mediaPlayer.start();
                         Toast.makeText(AddBird.this,"Playing sound preview...",Toast.LENGTH_SHORT).show();
                         playStatus = true;
+                        btnPlayStop.setImageResource(R.drawable.ic_stop_white_32dp);
                     } catch (IOException e) {
                         e.printStackTrace();
                         Toast.makeText(AddBird.this,"No sound selected...",Toast.LENGTH_SHORT).show();
@@ -149,7 +156,18 @@ public class AddBird extends AppCompatActivity {
         btnSoundBrowse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+//                Intent intent = new Intent(AddBird.this, FilePickerActivity.class);
+//                intent.putExtra(FilePickerActivity.ARG_FILE_FILTER, Pattern.compile(".*\\.txt$"));
+//                intent.putExtra(FilePickerActivity.ARG_DIRECTORIES_FILTER, true);
+//                intent.putExtra(FilePickerActivity.ARG_SHOW_HIDDEN, true);
+//                startActivityForResult(intent, 1);
+                new MaterialFilePicker()
+                        .withActivity(AddBird.this)
+                        .withRequestCode(AUDIO_FILE_BROWSE_CODE)
+                        .withFilter(Pattern.compile(".*\\.mp3$")) // Filtering files and directories by file name using regexp
+                        //.withFilterDirectories(true) // Set directories filterable (false by default)
+                        //.withHiddenFiles(true) // Show hidden files and folders
+                        .start();
             }
         });
 
@@ -177,13 +195,21 @@ public class AddBird extends AppCompatActivity {
         }
         else{
             //while not recording press button
+
+            if(mediaPlayer!=null && mediaPlayer.isPlaying()){
+                mediaPlayer.stop();
+                mediaPlayer.release();
+                playStatus = false;
+                btnPlayStop.setImageResource(R.drawable.ic_play_white_32dp);
+            }
+
             rec_file_name = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date())+"_rec.mp3";
-            recPathSave = Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+ rec_file_name;
+            recFilePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+ rec_file_name;
             mediaRecorder = new MediaRecorder();
             mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
             mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
             mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
-            mediaRecorder.setOutputFile(recPathSave);
+            mediaRecorder.setOutputFile(recFilePath);
             try {
                 mediaRecorder.prepare();
                 mediaRecorder.start();
@@ -264,6 +290,10 @@ public class AddBird extends AppCompatActivity {
         }
         else if(resultCode == RESULT_OK && requestCode == IMAGE_CAPTURE_CODE){
             imgPreview.setImageURI(img_uri);
+        }
+        else if(resultCode == RESULT_OK && requestCode == AUDIO_FILE_BROWSE_CODE){
+            recFilePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
+            txtRecFileName.setText(recFilePath.substring(recFilePath.lastIndexOf("/")+1));
         }
     }
 
