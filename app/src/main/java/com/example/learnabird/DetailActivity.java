@@ -49,12 +49,14 @@ public class DetailActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mediaPlayer.stop();
+        mediaPlayer.release();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         mediaPlayer.pause();
+        mediaPlayer.release();
     }
 }
 

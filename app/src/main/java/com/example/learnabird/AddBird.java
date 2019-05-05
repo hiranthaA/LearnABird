@@ -18,10 +18,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class AddBird extends AppCompatActivity {
 
@@ -43,6 +45,8 @@ public class AddBird extends AppCompatActivity {
     MediaPlayer mediaPlayer;
     boolean recStatus = false;
     boolean playStatus = false;
+    String rec_file_name;
+    TextView txtRecFileName;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -56,6 +60,7 @@ public class AddBird extends AppCompatActivity {
         btnPlayStop = findViewById(R.id.btn_play);
         btnRecStop = findViewById(R.id.btn_record);
         btnSoundBrowse = findViewById(R.id.btn_soundBrowse);
+        txtRecFileName = findViewById(R.id.txt_rec_file_name);
 
 
         btnCamera.setOnClickListener(new View.OnClickListener() {
@@ -156,6 +161,8 @@ public class AddBird extends AppCompatActivity {
             //while recording press button
             mediaRecorder.stop();
             Toast.makeText(AddBird.this,"Recording Stopped.",Toast.LENGTH_SHORT).show();
+            txtRecFileName.setText(rec_file_name);
+
             btnRecStop.setBackgroundTintList(this.getResources().getColorStateList(R.color.colorPrimary));
             btnPlayStop.setBackgroundTintList(this.getResources().getColorStateList(R.color.colorPrimary));
             btnPlayStop.setEnabled(true);
@@ -170,7 +177,8 @@ public class AddBird extends AppCompatActivity {
         }
         else{
             //while not recording press button
-            recPathSave = Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+ UUID.randomUUID().toString()+"_audio_record.3gp";
+            rec_file_name = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date())+"_rec.mp3";
+            recPathSave = Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+ rec_file_name;
             mediaRecorder = new MediaRecorder();
             mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
             mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);

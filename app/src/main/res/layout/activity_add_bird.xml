@@ -127,7 +127,7 @@
         android:text="@string/btn_text_add_bird" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/txt_rec_file_name"
         android:layout_width="269dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
