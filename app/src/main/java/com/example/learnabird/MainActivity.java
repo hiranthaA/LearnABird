@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        host = "http://192.168.8.101:8080/";
+        host = "https://learn-a-bird-server.herokuapp.com/";
         String getDataURL = host+"bird/getall";
 
         //Load data from api asynchronously
