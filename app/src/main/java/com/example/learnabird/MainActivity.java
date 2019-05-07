@@ -1,6 +1,8 @@
 package com.example.learnabird;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -27,21 +29,23 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fabAddBirds;
     private String[] arrBirdNames;
     private int[] arrBirdPics;
-    private String[] arrBirdNamesString;
+    private String[] arrBirdPicsString;
     private String[] arrBirdDetails;
     private int[] arrBirdSounds;
     private String[] arrBirdSoundsString;
+    private String host;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String host = "http://192.168.8.101:8080";
-        String getDataURL = host+"/bird/getall";
+        host = "http://192.168.8.101:8080/";
+        String getDataURL = host+"bird/getall";
 
-        ApiHelper apiHelper = new ApiHelper();
-        apiHelper.execute(getDataURL);
+        //Load data from api asynchronously
+        new LoadApiData().execute(getDataURL);
 
         //add Icon to action bar
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -114,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public class ApiHelper extends AsyncTask<String, Void, String> {
+    public class LoadApiData extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... urls) {
@@ -158,22 +162,26 @@ public class MainActivity extends AppCompatActivity {
                 JSONArray jsonArray = new JSONArray(result);
                 arrBirdNames = new String[jsonArray.length()];
                 arrBirdDetails = new String[jsonArray.length()];
+                arrBirdPicsString = new String[jsonArray.length()];
+                arrBirdSoundsString = new String[jsonArray.length()];
                 for(int i=0 ; i<jsonArray.length(); i++){
                     JSONObject jsonBird = jsonArray.getJSONObject(i);
                     jsonBird.getInt("id");
                     jsonBird.getString("info");
                     arrBirdNames[i]= jsonBird.getString("name");
                     arrBirdDetails[i]= jsonBird.getString("info");
+                    arrBirdPicsString[i]=jsonBird.getString("photo");
+                    arrBirdSoundsString[i]=jsonBird.getString("sound");
                 }
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-
-            ListAdapter listAdapter = new ListAdapter(MainActivity.this,arrBirdNames,arrBirdPics);
+            ListAdapter listAdapter = new ListAdapter(MainActivity.this,arrBirdNames,arrBirdPicsString,host);
             lstBirds.setAdapter(listAdapter);
 
         }
     }
+
 }
