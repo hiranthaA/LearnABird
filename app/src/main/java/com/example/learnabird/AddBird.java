@@ -16,6 +16,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,7 +45,8 @@ public class AddBird extends AppCompatActivity {
     ImageButton btnPlayStop;
     ImageButton btnRecStop;
     ImageButton btnSoundBrowse;
-    Uri img_uri;
+    Button btnAddBird;
+    Uri img_uri = null;
     String recFilePath = "";
     MediaRecorder mediaRecorder;
     MediaPlayer mediaPlayer;
@@ -52,6 +54,8 @@ public class AddBird extends AppCompatActivity {
     boolean playStatus = false;
     String rec_file_name;
     TextView txtRecFileName;
+    TextView txtBirdName;
+    TextView txtBirdInfo;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -66,6 +70,9 @@ public class AddBird extends AppCompatActivity {
         btnRecStop = findViewById(R.id.btn_record);
         btnSoundBrowse = findViewById(R.id.btn_soundBrowse);
         txtRecFileName = findViewById(R.id.txt_rec_file_name);
+        btnAddBird = findViewById(R.id.btn_addBird);
+        txtBirdName = findViewById(R.id.txt_name);
+        txtBirdInfo = findViewById(R.id.txt_details);
 
         btnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,6 +178,41 @@ public class AddBird extends AppCompatActivity {
             }
         });
 
+        btnAddBird.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(validateImage(img_uri) & validateSound(recFilePath) & validteTextView(txtBirdName) & validteTextView(txtBirdInfo)){
+                    Toast.makeText(AddBird.this,"Validation Successful.",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(AddBird.this,"Please fill all the fields..",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
+
+    public boolean validteTextView(TextView txtview){
+        if(txtview ==null || txtview.getText().equals("")){
+            return false;
+        }
+        return true;
+    }
+
+    public boolean validateImage(Uri uri){
+        if(uri ==null || uri.equals("")){
+            return false;
+        }
+        return true;
+    }
+
+    public  boolean validateSound(String url){
+        if(url == null || url.equals("")){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 
     @Override
@@ -294,6 +336,7 @@ public class AddBird extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE){
             imgPreview.setImageURI(data.getData());
+            img_uri = data.getData();
         }
         else if(resultCode == RESULT_OK && requestCode == IMAGE_CAPTURE_CODE){
             imgPreview.setImageURI(img_uri);
