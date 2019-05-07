@@ -1,6 +1,10 @@
 package com.example.learnabird;
 
+import android.media.AudioAttributes;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -9,6 +13,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.learnabird.AsyncTasks.AsyncLoadImage;
+
+import java.io.IOException;
+
 public class DetailActivity extends AppCompatActivity {
 
     private ImageView iv_imgPreview;
@@ -16,6 +24,7 @@ public class DetailActivity extends AppCompatActivity {
     private TextView tv_birdDetails;
     private Button btn_playSound;
     private MediaPlayer mediaPlayer;
+    private int birdId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +39,20 @@ public class DetailActivity extends AppCompatActivity {
 
         final Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
+            birdId = bundle.getInt("birdId");
             tv_birdName.setText(bundle.getString("birdName"));
-            iv_imgPreview.setImageResource(bundle.getInt("birdPic"));
+
+            new AsyncLoadImage(iv_imgPreview).execute(bundle.getString("birdPic"));
             tv_birdDetails.setText(bundle.getString("birdDetails"));
             getSupportActionBar().setTitle("Learn A Bird : " + bundle.getString("birdName"));
-            mediaPlayer = (MediaPlayer) MediaPlayer.create(this, bundle.getInt("birdSounds"));
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            try {
+                mediaPlayer.setDataSource(MainActivity.host+bundle.getString("birdSound"));
+                mediaPlayer.prepare();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         btn_playSound.setOnClickListener(new View.OnClickListener() {

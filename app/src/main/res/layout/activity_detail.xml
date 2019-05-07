@@ -16,7 +16,7 @@
         android:layout_marginRight="116dp"
         android:layout_marginBottom="437dp"
         android:contentDescription="@string/lbl_bird_img_view"
-        android:src="@mipmap/ic_launcher" />
+        tools:srcCompat="@tools:sample/avatars[3]" />
 
     <TextView
         android:id="@+id/txt_BirdName"
