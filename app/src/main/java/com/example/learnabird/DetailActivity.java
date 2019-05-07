@@ -1,6 +1,10 @@
 package com.example.learnabird;
 
+import android.media.AudioAttributes;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -10,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.learnabird.AsyncTasks.AsyncLoadImage;
+
+import java.io.IOException;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -39,7 +45,14 @@ public class DetailActivity extends AppCompatActivity {
             new AsyncLoadImage(iv_imgPreview).execute(bundle.getString("birdPic"));
             tv_birdDetails.setText(bundle.getString("birdDetails"));
             getSupportActionBar().setTitle("Learn A Bird : " + bundle.getString("birdName"));
-            mediaPlayer = (MediaPlayer) MediaPlayer.create(this, bundle.getInt("birdSound"));
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            try {
+                mediaPlayer.setDataSource(MainActivity.host+bundle.getString("birdSound"));
+                mediaPlayer.prepare();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         btn_playSound.setOnClickListener(new View.OnClickListener() {
