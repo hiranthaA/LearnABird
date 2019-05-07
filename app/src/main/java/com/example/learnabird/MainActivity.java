@@ -1,8 +1,6 @@
 package com.example.learnabird;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -33,7 +31,9 @@ public class MainActivity extends AppCompatActivity {
     private String[] arrBirdDetails;
     private int[] arrBirdSounds;
     private String[] arrBirdSoundsString;
-    private String host;
+    public static String host;
+    private int[] arrBirdIds;
+
 
 
     @Override
@@ -101,9 +101,10 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this,DetailActivity.class);
                 intent.putExtra("birdName",arrBirdNames[position]);
-                intent.putExtra("birdPic",arrBirdPics[position]);
+                intent.putExtra("birdPic",arrBirdPicsString[position]);
                 intent.putExtra("birdDetails",arrBirdDetails[position]);
-                intent.putExtra("birdSounds",arrBirdSounds[position]);
+                intent.putExtra("birdSound",arrBirdSounds[position]);
+                intent.putExtra("birdId",arrBirdIds[position]);
                 startActivity(intent);
             }
         });
@@ -164,10 +165,10 @@ public class MainActivity extends AppCompatActivity {
                 arrBirdDetails = new String[jsonArray.length()];
                 arrBirdPicsString = new String[jsonArray.length()];
                 arrBirdSoundsString = new String[jsonArray.length()];
+                arrBirdIds = new int[jsonArray.length()];
                 for(int i=0 ; i<jsonArray.length(); i++){
                     JSONObject jsonBird = jsonArray.getJSONObject(i);
                     jsonBird.getInt("id");
-                    jsonBird.getString("info");
                     arrBirdNames[i]= jsonBird.getString("name");
                     arrBirdDetails[i]= jsonBird.getString("info");
                     arrBirdPicsString[i]=jsonBird.getString("photo");
@@ -178,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            ListAdapter listAdapter = new ListAdapter(MainActivity.this,arrBirdNames,arrBirdPicsString,host);
+            ListAdapter listAdapter = new ListAdapter(MainActivity.this,arrBirdNames,arrBirdPicsString);
             lstBirds.setAdapter(listAdapter);
 
         }
