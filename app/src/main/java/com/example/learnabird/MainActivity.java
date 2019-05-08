@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -51,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private int refreshCount;
 
+    ProgressBar progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         lstBirds = findViewById(R.id.lstBirds);
         fabAddBirds = findViewById(R.id.fab_add_bird);
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
+        progressBar = findViewById(R.id.progressBarMain);
 
         db = new DatabaseHelper(this);
 
@@ -141,6 +145,11 @@ public class MainActivity extends AppCompatActivity {
     public class LoadApiData extends AsyncTask<String, Void, String> {
 
         @Override
+        protected void onPreExecute() {
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
         protected String doInBackground(String... urls) {
 
             String result ="";
@@ -174,7 +183,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            super.onPostExecute(result);
 
             Log.i("API content:",result);
 
@@ -220,6 +228,7 @@ public class MainActivity extends AppCompatActivity {
 
             ListAdapter listAdapter = new ListAdapter(MainActivity.this,arrBirdNames, arrBirdPics, arrLocation);
             lstBirds.setAdapter(listAdapter);
+            progressBar.setVisibility(View.INVISIBLE);
 
         }
     }
