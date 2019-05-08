@@ -1,8 +1,11 @@
 package com.example.learnabird;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -136,10 +139,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadData(){
-        //Load data from database
-        loadDbData();
-        //Load data from api asynchronously
-        new LoadApiData().execute(getDataURL);
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        if( activeNetworkInfo != null && activeNetworkInfo.isConnected()){
+            //Load data from database
+            loadDbData();
+            //Load data from api asynchronously
+            new LoadApiData().execute(getDataURL);
+        }
+        else{
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setMessage("Oops! Your connection seems off...").setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    loadData();
+                }
+            }).setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    MainActivity.super.onBackPressed();
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
     }
 
     public class LoadApiData extends AsyncTask<String, Void, String> {
