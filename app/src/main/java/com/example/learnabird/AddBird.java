@@ -203,6 +203,7 @@ public class AddBird extends AppCompatActivity {
                 if(validateImage(img_uri) & validateSound(recFilePath) & validteTextView(txtBirdName) & validteTextView(txtBirdInfo)){
                     saveImageToStorage(img_uri);
                     db.addBird(txtBirdName.getText().toString(),txtBirdInfo.getText().toString(),image_file_name,rec_file_name);
+                    finish();
                     Toast.makeText(AddBird.this,"Information saved successfully.",Toast.LENGTH_SHORT).show();
                 }
                 else{
