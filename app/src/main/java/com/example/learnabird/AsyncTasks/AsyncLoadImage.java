@@ -1,5 +1,6 @@
 package com.example.learnabird.AsyncTasks;
 
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -17,15 +18,17 @@ import java.net.URL;
 public class AsyncLoadImage extends AsyncTask<String, Void, Bitmap> {
 
     ImageView target;
-    ProgressBar progressBar;
+    ProgressDialog progressDialog;
+
     public AsyncLoadImage(ImageView imageView){
         this.target = imageView;
+        progressDialog = MainActivity.progressDialog;
     }
 
     @Override
     protected void onPreExecute() {
-        progressBar = MainActivity.progressBar;
-        progressBar.setVisibility(View.VISIBLE);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
     }
 
     @Override
@@ -48,6 +51,6 @@ public class AsyncLoadImage extends AsyncTask<String, Void, Bitmap> {
     protected void onPostExecute(Bitmap bitmap) {
         super.onPostExecute(bitmap);
         target.setImageBitmap(bitmap);
-        progressBar.setVisibility(View.INVISIBLE);
+        progressDialog.dismiss();
     }
 }

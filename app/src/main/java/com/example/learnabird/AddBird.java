@@ -2,8 +2,10 @@ package com.example.learnabird;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -11,6 +13,7 @@ import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -18,6 +21,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -79,6 +83,8 @@ public class AddBird extends AppCompatActivity {
 
     String image_file_name;
 
+    ProgressDialog progressDialog;
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +92,8 @@ public class AddBird extends AppCompatActivity {
         setContentView(R.layout.activity_add_bird);
 
         db = new DatabaseHelper(this);
+
+
 
         btnCamera = findViewById(R.id.btn_camera);
         imgPreview = findViewById(R.id.img_bird);
@@ -203,10 +211,7 @@ public class AddBird extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(validateImage(img_uri) & validateSound(recFilePath) & validteTextView(txtBirdName) & validteTextView(txtBirdInfo)){
-                    saveImageToStorage(img_uri);
-                    db.addBird(txtBirdName.getText().toString(),txtBirdInfo.getText().toString(),image_file_name,rec_file_name);
-                    finish();
-                    Toast.makeText(AddBird.this,"Information saved successfully.",Toast.LENGTH_SHORT).show();
+                    new SaveData(img_uri).execute("lb_"+new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date())+".png");
                 }
                 else{
                     Toast.makeText(AddBird.this,"Please fill all the fields..",Toast.LENGTH_SHORT).show();
@@ -424,37 +429,76 @@ public class AddBird extends AppCompatActivity {
         }
     }
 
-    private void saveImageToStorage(Uri uri) {
-        InputStream inputStream;
-        try {
-            //--------------------------------------------
-            inputStream = getContentResolver().openInputStream(uri);
-            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+    public class SaveData extends AsyncTask<String, Void, Boolean> {
+
+        Uri uri;
+
+        public SaveData(Uri uri) {
+            this.uri = uri;
+            progressDialog = new ProgressDialog(AddBird.this);
+            progressDialog.setCancelable(false);
+            progressDialog.setCanceledOnTouchOutside(false);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog.setMessage("Saving data... Please wait...");
+            progressDialog.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+
+            InputStream inputStream;
+            try {
+                //--------------------------------------------
+                inputStream = getContentResolver().openInputStream(uri);
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 //            imgPreview.setImageBitmap(bitmap);
-            String picName = "lb_"+new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date())+".png";
-            image_file_name = picName;
+                String picName = strings[0];
+                image_file_name = picName;
+                //create a file to write bitmap data
+                //File f = new File(this.getFilesDir(), picName);
+                File f = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), picName);
+                f.createNewFile();
 
-            //create a file to write bitmap data
-            //File f = new File(this.getFilesDir(), picName);
-            File f = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), picName);
-            f.createNewFile();
+                //Convert bitmap to byte array
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos);
+                byte[] bitmapdata = bos.toByteArray();
 
-            //Convert bitmap to byte array
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos);
-            byte[] bitmapdata = bos.toByteArray();
+                //write the bytes in file
+                FileOutputStream fos = new FileOutputStream(f);
+                fos.write(bitmapdata);
+                fos.flush();
+                fos.close();
 
-            //write the bytes in file
-            FileOutputStream fos = new FileOutputStream(f);
-            fos.write(bitmapdata);
-            fos.flush();
-            fos.close();
+                //--------------------------------------------
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            db.addBird(txtBirdName.getText().toString(),txtBirdInfo.getText().toString(),image_file_name,rec_file_name);
 
-            //--------------------------------------------
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            progressDialog.dismiss();
+            AlertDialog.Builder builder = new AlertDialog.Builder(AddBird.this);
+            builder.setMessage("Saved successfully.").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.setCancelable(false);
+            alert.setCanceledOnTouchOutside(false);
+            alert.show();
+
         }
     }
 
