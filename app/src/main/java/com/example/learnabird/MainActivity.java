@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -41,8 +42,12 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> arrlstDbBirdSounds;
 
     public static String host;
+    private String getDataURL;
     private int[] arrBirdIds;
     private DatabaseHelper db;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private int refreshCount;
 
 
     @Override
@@ -50,22 +55,31 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //initialize elements
+        lstBirds = findViewById(R.id.lstBirds);
+        fabAddBirds = findViewById(R.id.fab_add_bird);
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
+
         db = new DatabaseHelper(this);
 
         host = "https://learn-a-bird-server.herokuapp.com/";
-        String getDataURL = host+"bird/getall";
+        getDataURL = host+"bird/getall";
 
-        //Load data from database
-        loadDbData();
-        //Load data from api asynchronously
-        new LoadApiData().execute(getDataURL);
+        //load data to the app from api and db
+        loadData();
 
         //add Icon to action bar
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.drawable.ic_launcher_background);
 
-        lstBirds = findViewById(R.id.lstBirds);
-        fabAddBirds = findViewById(R.id.fab_add_bird);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                System.out.println("Refreshed");
+                loadData();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         lstBirds.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -111,6 +125,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         System.out.println("data loaded");
+    }
+
+    public void loadData(){
+        //Load data from database
+        loadDbData();
+        //Load data from api asynchronously
+        new LoadApiData().execute(getDataURL);
     }
 
     public class LoadApiData extends AsyncTask<String, Void, String> {
