@@ -17,8 +17,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private int refreshCount;
 
-    ProgressDialog progressDialog;
+    public static ProgressDialog progressDialog;
 
 
     @Override
