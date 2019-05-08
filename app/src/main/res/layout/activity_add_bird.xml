@@ -54,22 +54,22 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="316dp"
-        android:layout_marginRight="316dp"
-        android:layout_marginBottom="402dp"
+        android:layout_marginEnd="317dp"
+        android:layout_marginRight="317dp"
+        android:layout_marginBottom="416dp"
         android:text="@string/lbl_details"
         android:textSize="18sp" />
 
     <EditText
         android:id="@+id/txt_details"
-        android:layout_width="269dp"
-        android:layout_height="68dp"
+        android:layout_width="267dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="13dp"
         android:layout_marginRight="13dp"
-        android:layout_marginBottom="390dp"
+        android:layout_marginBottom="404dp"
         android:ems="10"
         android:gravity="start|top"
         android:hint="@string/hint_txt_details"
@@ -84,7 +84,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="298dp"
         android:layout_marginRight="298dp"
-        android:layout_marginBottom="341dp"
+        android:layout_marginBottom="355dp"
         android:text="@string/lbl_image"
         android:textSize="18sp" />
 
@@ -95,9 +95,9 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="74dp"
-        android:layout_marginRight="74dp"
-        android:layout_marginBottom="207dp"
+        android:layout_marginEnd="73dp"
+        android:layout_marginRight="73dp"
+        android:layout_marginBottom="220dp"
         android:background="@color/imgBackground"
         tools:srcCompat="@tools:sample/avatars[2]" />
 
@@ -108,9 +108,9 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="298dp"
-        android:layout_marginRight="298dp"
-        android:layout_marginBottom="149dp"
+        android:layout_marginEnd="297dp"
+        android:layout_marginRight="297dp"
+        android:layout_marginBottom="162dp"
         android:text="@string/lbl_sound"
         android:textSize="18sp" />
 
@@ -133,9 +133,9 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="13dp"
-        android:layout_marginRight="13dp"
-        android:layout_marginBottom="148dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="161dp"
         android:text="@string/lbl_sound_file_name"
         android:textSize="18sp" />
 
@@ -146,9 +146,9 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="13dp"
-        android:layout_marginRight="13dp"
-        android:layout_marginBottom="255dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="268dp"
         android:backgroundTint="@color/colorPrimary"
         app:srcCompat="@android:drawable/ic_menu_camera" />
 
@@ -159,9 +159,9 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="13dp"
-        android:layout_marginRight="13dp"
-        android:layout_marginBottom="316dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="329dp"
         android:backgroundTint="@color/colorPrimary"
         app:srcCompat="@android:drawable/ic_menu_gallery" />
 
@@ -172,9 +172,9 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="226dp"
-        android:layout_marginRight="226dp"
-        android:layout_marginBottom="93dp"
+        android:layout_marginEnd="225dp"
+        android:layout_marginRight="225dp"
+        android:layout_marginBottom="106dp"
         android:backgroundTint="@color/colorPrimary"
         app:srcCompat="@android:drawable/ic_media_play" />
 
@@ -185,9 +185,9 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="166dp"
-        android:layout_marginRight="166dp"
-        android:layout_marginBottom="93dp"
+        android:layout_marginEnd="165dp"
+        android:layout_marginRight="165dp"
+        android:layout_marginBottom="106dp"
         android:backgroundTint="@color/colorPrimary"
         app:srcCompat="@android:drawable/ic_btn_speak_now" />
 
@@ -198,9 +198,9 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="107dp"
-        android:layout_marginRight="107dp"
-        android:layout_marginBottom="93dp"
+        android:layout_marginEnd="106dp"
+        android:layout_marginRight="106dp"
+        android:layout_marginBottom="106dp"
         android:backgroundTint="@color/colorPrimary"
         app:srcCompat="@android:drawable/ic_menu_upload_you_tube" />
 </RelativeLayout>

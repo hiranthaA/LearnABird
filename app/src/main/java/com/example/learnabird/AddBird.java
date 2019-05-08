@@ -200,42 +200,14 @@ public class AddBird extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(validateImage(img_uri) & validateSound(recFilePath) & validteTextView(txtBirdName) & validteTextView(txtBirdInfo)){
-
+                    saveImageToStorage(img_uri);
                     db.addBird(txtBirdName.getText().toString(),txtBirdInfo.getText().toString(),image_file_name,rec_file_name);
-
-//                    String sourceFilename= img_uri.getPath();
-//                    String destinationFilename = android.os.Environment.getExternalStorageDirectory().getPath()+File.separatorChar+"abc.jpg";
-//
-//                    BufferedInputStream bis = null;
-//                    BufferedOutputStream bos = null;
-//
-//                    try {
-//                        bis = new BufferedInputStream(new FileInputStream(sourceFilename));
-//                        bos = new BufferedOutputStream(new FileOutputStream(destinationFilename, false));
-//                        byte[] buf = new byte[1024];
-//                        bis.read(buf);
-//                        do {
-//                            bos.write(buf);
-//                        } while(bis.read(buf) != -1);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    } finally {
-//                        try {
-//                            if (bis != null) bis.close();
-//                            if (bos != null) bos.close();
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-
-
-
-                    Toast.makeText(AddBird.this,"Validation Successful.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddBird.this,"Information saved successfully.",Toast.LENGTH_SHORT).show();
                 }
                 else{
                     Toast.makeText(AddBird.this,"Please fill all the fields..",Toast.LENGTH_SHORT).show();
                 }
-                saveImageToStorage(img_uri);
+
             }
         });
 
@@ -351,6 +323,7 @@ public class AddBird extends AppCompatActivity {
 //        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,img_uri);
 //        startActivityForResult(cameraIntent,IMAGE_CAPTURE_CODE);
 
+        //save file using fileprovider code
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         if(cameraIntent.resolveActivity(getPackageManager())!=null){
@@ -442,6 +415,7 @@ public class AddBird extends AppCompatActivity {
         else if(resultCode == RESULT_OK && requestCode == AUDIO_FILE_BROWSE_CODE){
             recFilePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
             txtRecFileName.setText(recFilePath.substring(recFilePath.lastIndexOf("/")+1));
+            rec_file_name = recFilePath.substring(recFilePath.lastIndexOf("/")+1);
         }
     }
 
@@ -452,8 +426,8 @@ public class AddBird extends AppCompatActivity {
             inputStream = getContentResolver().openInputStream(uri);
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 //            imgPreview.setImageBitmap(bitmap);
-            currentImageBitmap = bitmap;
             String picName = "lb_"+new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date())+".png";
+            image_file_name = picName;
 
             //create a file to write bitmap data
             File f = new File(this.getFilesDir(), picName);

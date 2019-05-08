@@ -17,7 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private DatabaseHelper db;
 
-    private static final String DATABASE_NAME = "learnabird";
+    private static final String DATABASE_NAME = "learnabirddb";
     private static final String TABLE_NAME = "birdinfo";
     private static final int DATABASE_VERSION = 1;
 
@@ -55,8 +55,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME,name);
         values.put(COLUMN_INFO,info);
-        values.put(COLUMN_IMAGE,info);
-        values.put(COLUMN_SOUND,info);
+        values.put(COLUMN_IMAGE,photo);
+        values.put(COLUMN_SOUND,sound);
 
         long result;
         try {
