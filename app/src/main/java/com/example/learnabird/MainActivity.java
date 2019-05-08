@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private int refreshCount;
 
-    ProgressBar progressBar;
+    public static ProgressBar progressBar;
 
 
     @Override
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
         //add Icon to action bar
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.ic_launcher_background);
+        //getSupportActionBar().setIcon(R.drawable.ic_delete_white_24dp);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
