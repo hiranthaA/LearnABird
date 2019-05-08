@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.learnabird.AsyncTasks.AsyncLoadImage;
 
+import java.io.File;
 import java.io.IOException;
 
 public class ListAdapter extends ArrayAdapter {
@@ -55,7 +56,9 @@ public class ListAdapter extends ArrayAdapter {
         }
         else{
             //load data from db
-            Bitmap bitmap = BitmapFactory.decodeFile(storage+birdPics[position]);
+            //Bitmap bitmap = BitmapFactory.decodeFile(storage+birdPics[position]);
+            //viewHolder.mBird.setImageBitmap(bitmap);
+            Bitmap bitmap = resizeBitmap(storage+birdPics[position]);
             viewHolder.mBird.setImageBitmap(bitmap);
         }
         viewHolder.mName.setText(birdNames[position]);
@@ -65,6 +68,21 @@ public class ListAdapter extends ArrayAdapter {
     static class ViewHolder{
         ImageView mBird;
         TextView mName;
+    }
+
+    public Bitmap resizeBitmap(String path){
+        int DESIREDWIDTH = 100;
+        int DESIREDHEIGHT = 100;
+        File file = new File(path);
+        Bitmap bitmap = ScalingUtilities.decodeFile(file,DESIREDWIDTH,DESIREDHEIGHT, ScalingUtilities.ScalingLogic.FIT);
+        if (!(bitmap.getWidth() <= DESIREDWIDTH && bitmap.getHeight() <= DESIREDHEIGHT)) {
+            // Part 2: Scale image
+            bitmap = ScalingUtilities.createScaledBitmap(bitmap, DESIREDWIDTH, DESIREDHEIGHT, ScalingUtilities.ScalingLogic.FIT);
+        } else {
+            //bitmap.recycle();
+            bitmap = ScalingUtilities.createScaledBitmap(bitmap, DESIREDWIDTH, DESIREDHEIGHT, ScalingUtilities.ScalingLogic.FIT);
+        }
+        return bitmap;
     }
 
 }

@@ -1,8 +1,11 @@
 package com.example.learnabird;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -51,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private int refreshCount;
 
+    public static ProgressBar progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         lstBirds = findViewById(R.id.lstBirds);
         fabAddBirds = findViewById(R.id.fab_add_bird);
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
+        progressBar = findViewById(R.id.progressBarMain);
 
         db = new DatabaseHelper(this);
 
@@ -72,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
         //add Icon to action bar
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.ic_launcher_background);
+        //getSupportActionBar().setIcon(R.drawable.ic_delete_white_24dp);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -132,13 +139,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadData(){
-        //Load data from database
-        loadDbData();
-        //Load data from api asynchronously
-        new LoadApiData().execute(getDataURL);
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        if( activeNetworkInfo != null && activeNetworkInfo.isConnected()){
+            //Load data from database
+            loadDbData();
+            //Load data from api asynchronously
+            new LoadApiData().execute(getDataURL);
+        }
+        else{
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setMessage("Oops! Your connection seems off...").setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    loadData();
+                }
+            }).setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    MainActivity.super.onBackPressed();
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
     }
 
     public class LoadApiData extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            progressBar.setVisibility(View.VISIBLE);
+        }
 
         @Override
         protected String doInBackground(String... urls) {
@@ -174,7 +207,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            super.onPostExecute(result);
 
             Log.i("API content:",result);
 
@@ -220,6 +252,7 @@ public class MainActivity extends AppCompatActivity {
 
             ListAdapter listAdapter = new ListAdapter(MainActivity.this,arrBirdNames, arrBirdPics, arrLocation);
             lstBirds.setAdapter(listAdapter);
+            progressBar.setVisibility(View.INVISIBLE);
 
         }
     }
