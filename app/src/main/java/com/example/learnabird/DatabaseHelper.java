@@ -28,6 +28,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             COLUMN_SOUND+ " VARCHAR)";
     private static final String DROP_TABLE_SQL = "DROP TABLE "+TABLE_NAME;
 
+    private String DELETE_TABLE_ROW = "DELETE FROM " + TABLE_NAME + " WHERE id = ";
+
     private Context context;
 
     private SQLiteDatabase sqLiteDatabase;
@@ -80,8 +82,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getBirdList(){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(CREATE_TABLE_SQL);
-        Cursor list = db.rawQuery("SELECT * FROM "+ TABLE_NAME,null);
+        //Cursor list = db.rawQuery("SELECT * FROM "+ TABLE_NAME,null);
+        Cursor list = db.rawQuery("SELECT ID,name,info,image,sound FROM "+ TABLE_NAME,null);
         return list;
     }
 
+    public boolean deleteBird(int id) {
+        String[] args = new String[]{Integer.toString(id)};
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_NAME, "ID=?",new String[]{Integer.toString(id)}) > 0;
+    }
 }
