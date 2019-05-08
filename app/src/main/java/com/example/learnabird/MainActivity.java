@@ -1,5 +1,6 @@
 package com.example.learnabird;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private int refreshCount;
 
-    public static ProgressBar progressBar;
+    ProgressDialog progressDialog;
 
 
     @Override
@@ -67,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
         lstBirds = findViewById(R.id.lstBirds);
         fabAddBirds = findViewById(R.id.fab_add_bird);
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
-        progressBar = findViewById(R.id.progressBarMain);
 
         db = new DatabaseHelper(this);
 
@@ -168,9 +168,16 @@ public class MainActivity extends AppCompatActivity {
 
     public class LoadApiData extends AsyncTask<String, Void, String> {
 
+        public LoadApiData() {
+            progressDialog = new ProgressDialog(MainActivity.this);
+            progressDialog.setCancelable(false);
+            progressDialog.setCanceledOnTouchOutside(false);
+        }
+
         @Override
         protected void onPreExecute() {
-            progressBar.setVisibility(View.VISIBLE);
+            progressDialog.setMessage("Loading data...");
+            progressDialog.show();
         }
 
         @Override
@@ -252,7 +259,7 @@ public class MainActivity extends AppCompatActivity {
 
             ListAdapter listAdapter = new ListAdapter(MainActivity.this,arrBirdNames, arrBirdPics, arrLocation);
             lstBirds.setAdapter(listAdapter);
-            progressBar.setVisibility(View.INVISIBLE);
+            progressDialog.dismiss();
 
         }
     }
