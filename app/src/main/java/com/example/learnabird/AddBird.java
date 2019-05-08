@@ -45,6 +45,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Pattern;
@@ -80,6 +81,7 @@ public class AddBird extends AppCompatActivity {
     TextView txtRecFileName;
     TextView txtBirdName;
     TextView txtBirdInfo;
+    String selAudioFileType;
 
     String image_file_name;
 
@@ -178,6 +180,7 @@ public class AddBird extends AppCompatActivity {
         btnRecStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                selAudioFileType="rec";
                 if (Build.VERSION.SDK_INT >= 23){
                     if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_DENIED ||
                             checkSelfPermission(Manifest.permission.RECORD_AUDIO)==PackageManager.PERMISSION_DENIED){
@@ -426,6 +429,30 @@ public class AddBird extends AppCompatActivity {
             recFilePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
             txtRecFileName.setText(recFilePath.substring(recFilePath.lastIndexOf("/")+1));
             rec_file_name = recFilePath.substring(recFilePath.lastIndexOf("/")+1);
+            selAudioFileType = "file";
+        }
+    }
+
+    public boolean copyFile(String from, String to) {
+        try {
+            File sd = Environment.getExternalStorageDirectory();
+            if (sd.canWrite()) {
+                //int end = from.toString().lastIndexOf("/");
+                //String str1 = from.toString().substring(0, end);
+                //String str2 = from.toString().substring(end+1, from.length());
+                File source = new File(from);
+                File destination= new File(to);
+                if (source.exists()) {
+                    FileChannel src = new FileInputStream(source).getChannel();
+                    FileChannel dst = new FileOutputStream(destination).getChannel();
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+                }
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
         }
     }
 
@@ -478,6 +505,10 @@ public class AddBird extends AppCompatActivity {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+            //copy browsed audio file to app path
+            if(selAudioFileType.equals("file")){
+                copyFile(recFilePath,getExternalFilesDir(Environment.DIRECTORY_MUSIC).toString()+"/"+rec_file_name);
             }
             db.addBird(txtBirdName.getText().toString(),txtBirdInfo.getText().toString(),image_file_name,rec_file_name);
 
