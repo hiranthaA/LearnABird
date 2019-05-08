@@ -3,8 +3,11 @@ package com.example.learnabird;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -14,6 +17,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -25,7 +29,14 @@ import android.widget.Toast;
 import com.nbsp.materialfilepicker.MaterialFilePicker;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Pattern;
@@ -38,6 +49,10 @@ public class AddBird extends AppCompatActivity {
     private static final int IMAGE_PICK_CODE = 1002;
     private static final int IMAGE_CAPTURE_CODE = 1003;
     private static final int AUDIO_FILE_BROWSE_CODE = 1005;
+
+    private DatabaseHelper db;
+
+    String currentImagePath;
 
     ImageButton btnCamera;
     ImageButton btnImageBrowse;
@@ -57,11 +72,15 @@ public class AddBird extends AppCompatActivity {
     TextView txtBirdName;
     TextView txtBirdInfo;
 
+    String image_file_name;
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_bird);
+
+        db = new DatabaseHelper(this);
 
         btnCamera = findViewById(R.id.btn_camera);
         imgPreview = findViewById(R.id.img_bird);
@@ -90,7 +109,9 @@ public class AddBird extends AppCompatActivity {
                 else{
                     openCamera();
                 }
+                openCamera();
             }
+
         });
 
         btnImageBrowse.setOnClickListener(new View.OnClickListener() {
@@ -163,11 +184,6 @@ public class AddBird extends AppCompatActivity {
         btnSoundBrowse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(AddBird.this, FilePickerActivity.class);
-//                intent.putExtra(FilePickerActivity.ARG_FILE_FILTER, Pattern.compile(".*\\.txt$"));
-//                intent.putExtra(FilePickerActivity.ARG_DIRECTORIES_FILTER, true);
-//                intent.putExtra(FilePickerActivity.ARG_SHOW_HIDDEN, true);
-//                startActivityForResult(intent, 1);
                 new MaterialFilePicker()
                         .withActivity(AddBird.this)
                         .withRequestCode(AUDIO_FILE_BROWSE_CODE)
@@ -182,6 +198,34 @@ public class AddBird extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(validateImage(img_uri) & validateSound(recFilePath) & validteTextView(txtBirdName) & validteTextView(txtBirdInfo)){
+
+                    db.addBird(txtBirdName.getText().toString(),txtBirdInfo.getText().toString(),image_file_name,rec_file_name);
+
+                    String sourceFilename= img_uri.getPath();
+                    String destinationFilename = android.os.Environment.getExternalStorageDirectory().getPath()+File.separatorChar+"abc.jpg";
+
+                    BufferedInputStream bis = null;
+                    BufferedOutputStream bos = null;
+
+                    try {
+                        bis = new BufferedInputStream(new FileInputStream(sourceFilename));
+                        bos = new BufferedOutputStream(new FileOutputStream(destinationFilename, false));
+                        byte[] buf = new byte[1024];
+                        bis.read(buf);
+                        do {
+                            bos.write(buf);
+                        } while(bis.read(buf) != -1);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            if (bis != null) bis.close();
+                            if (bos != null) bos.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
                     Toast.makeText(AddBird.this,"Validation Successful.",Toast.LENGTH_SHORT).show();
                 }
                 else{
@@ -282,13 +326,50 @@ public class AddBird extends AppCompatActivity {
     }
 
     private void openCamera() {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(MediaStore.Images.Media.TITLE,"New Picture");
-        contentValues.put(MediaStore.Images.Media.DESCRIPTION,"Photo taken from LearnABird");
-        img_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,contentValues);
+//        ContentValues contentValues = new ContentValues();
+//        contentValues.put(MediaStore.Images.Media.TITLE,"New Picture");
+//        contentValues.put(MediaStore.Images.Media.DESCRIPTION,"Photo taken from LearnABird");
+//        img_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,contentValues);
+//        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,img_uri);
+//        startActivityForResult(cameraIntent,IMAGE_CAPTURE_CODE);
+// -----------------------------------------------------------------------------------
+//        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        //cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//        //File picDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+//
+//        String picName = "lb_"+new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date())+".jpg";
+//        //File imgFile = new File(picDir,picName);
+//        File file = new File(this.getFilesDir(), picName);
+//        img_uri = Uri.fromFile(file);
+//
+//        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,img_uri);
+//        startActivityForResult(cameraIntent,IMAGE_CAPTURE_CODE);
+
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,img_uri);
-        startActivityForResult(cameraIntent,IMAGE_CAPTURE_CODE);
+
+        if(cameraIntent.resolveActivity(getPackageManager())!=null){
+            File imageFile = null;
+            imageFile = getImageFile();
+            if(imageFile!=null){
+                img_uri = FileProvider.getUriForFile(this,"com.example.android.fileprovider",imageFile);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,img_uri);
+                startActivityForResult(cameraIntent,IMAGE_CAPTURE_CODE);
+            }
+        }
+    }
+
+    public File getImageFile(){
+        String picName = "lb_"+new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File imgFile = null;
+        try {
+            imgFile = File.createTempFile(picName,".jpg",storageDir);
+            currentImagePath = imgFile.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return imgFile;
     }
 
     private void pickImageFromGallery() {
@@ -334,13 +415,18 @@ public class AddBird extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        //image browse
         if(resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE){
             imgPreview.setImageURI(data.getData());
             img_uri = data.getData();
         }
+        //camera capture
         else if(resultCode == RESULT_OK && requestCode == IMAGE_CAPTURE_CODE){
             imgPreview.setImageURI(img_uri);
+            image_file_name = img_uri.getLastPathSegment();
         }
+        //audio browse
         else if(resultCode == RESULT_OK && requestCode == AUDIO_FILE_BROWSE_CODE){
             recFilePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
             txtRecFileName.setText(recFilePath.substring(recFilePath.lastIndexOf("/")+1));
