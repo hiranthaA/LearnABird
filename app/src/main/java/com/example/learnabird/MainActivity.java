@@ -1,17 +1,19 @@
 package com.example.learnabird;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> arrlstDbBirdInfo;
     private ArrayList<String> arrlstDbBirdPhotos;
     private ArrayList<String> arrlstDbBirdSounds;
-
+    private ArrayList<Integer> arrlstDbBirdIds;
     public static String host;
     private String getDataURL;
     private int[] arrBirdIds;
@@ -110,11 +112,13 @@ public class MainActivity extends AppCompatActivity {
         arrlstDbBirdInfo = new ArrayList<String>();
         arrlstDbBirdPhotos = new ArrayList<String>();
         arrlstDbBirdSounds = new ArrayList<String>();
+        arrlstDbBirdIds = new ArrayList<Integer>();
         Cursor data = db.getBirdList();
 
         if(data!=null){
             if(data.getCount()>0){
                 while (data.moveToNext()){
+                    arrlstDbBirdIds.add(Integer.parseInt(data.getString(0)));
                     arrlstDbBirdNames.add(data.getString(1));
                     arrlstDbBirdInfo.add(data.getString(2));
                     arrlstDbBirdPhotos.add(data.getString(3));
@@ -199,6 +203,7 @@ public class MainActivity extends AppCompatActivity {
                 //merge db data to api data array
                 int count = apiDataSize;
                 for(int i=0; i< dbDataSize; i++){
+                    arrBirdIds[count] = arrlstDbBirdIds.get(i);
                     arrBirdNames[count] = arrlstDbBirdNames.get(i);
                     arrBirdDetails[count] = arrlstDbBirdInfo.get(i);
                     arrBirdPics[count] = arrlstDbBirdPhotos.get(i);
@@ -219,4 +224,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setMessage("Are you sure you want to exit?").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                MainActivity.super.onBackPressed();
+            }
+        }).setNegativeButton("Cancel",null);
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
 }
