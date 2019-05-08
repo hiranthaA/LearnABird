@@ -430,7 +430,8 @@ public class AddBird extends AppCompatActivity {
             image_file_name = picName;
 
             //create a file to write bitmap data
-            File f = new File(this.getFilesDir(), picName);
+            //File f = new File(this.getFilesDir(), picName);
+            File f = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), picName);
             f.createNewFile();
 
             //Convert bitmap to byte array
