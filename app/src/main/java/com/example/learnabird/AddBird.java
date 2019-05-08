@@ -274,7 +274,8 @@ public class AddBird extends AppCompatActivity {
             }
 
             rec_file_name = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date())+"_rec.mp3";
-            recFilePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+ rec_file_name;
+            //recFilePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+ rec_file_name;
+            recFilePath = getExternalFilesDir(Environment.DIRECTORY_MUSIC).getAbsolutePath()+"/"+ rec_file_name;
             mediaRecorder = new MediaRecorder();
             mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
             mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
