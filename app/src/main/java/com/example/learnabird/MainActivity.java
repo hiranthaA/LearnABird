@@ -31,13 +31,15 @@ public class MainActivity extends AppCompatActivity {
     private String[] arrBirdSounds;
     public static String host;
     private int[] arrBirdIds;
-
+    private DatabaseHelper db;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        db = new DatabaseHelper(this);
 
         host = "https://learn-a-bird-server.herokuapp.com/";
         String getDataURL = host+"bird/getall";
