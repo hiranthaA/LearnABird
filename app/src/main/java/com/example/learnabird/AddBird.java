@@ -31,6 +31,7 @@ import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -53,6 +54,7 @@ public class AddBird extends AppCompatActivity {
     private DatabaseHelper db;
 
     String currentImagePath;
+    Bitmap currentImageBitmap;
 
     ImageButton btnCamera;
     ImageButton btnImageBrowse;
@@ -201,36 +203,39 @@ public class AddBird extends AppCompatActivity {
 
                     db.addBird(txtBirdName.getText().toString(),txtBirdInfo.getText().toString(),image_file_name,rec_file_name);
 
-                    String sourceFilename= img_uri.getPath();
-                    String destinationFilename = android.os.Environment.getExternalStorageDirectory().getPath()+File.separatorChar+"abc.jpg";
+//                    String sourceFilename= img_uri.getPath();
+//                    String destinationFilename = android.os.Environment.getExternalStorageDirectory().getPath()+File.separatorChar+"abc.jpg";
+//
+//                    BufferedInputStream bis = null;
+//                    BufferedOutputStream bos = null;
+//
+//                    try {
+//                        bis = new BufferedInputStream(new FileInputStream(sourceFilename));
+//                        bos = new BufferedOutputStream(new FileOutputStream(destinationFilename, false));
+//                        byte[] buf = new byte[1024];
+//                        bis.read(buf);
+//                        do {
+//                            bos.write(buf);
+//                        } while(bis.read(buf) != -1);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    } finally {
+//                        try {
+//                            if (bis != null) bis.close();
+//                            if (bos != null) bos.close();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
 
-                    BufferedInputStream bis = null;
-                    BufferedOutputStream bos = null;
 
-                    try {
-                        bis = new BufferedInputStream(new FileInputStream(sourceFilename));
-                        bos = new BufferedOutputStream(new FileOutputStream(destinationFilename, false));
-                        byte[] buf = new byte[1024];
-                        bis.read(buf);
-                        do {
-                            bos.write(buf);
-                        } while(bis.read(buf) != -1);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } finally {
-                        try {
-                            if (bis != null) bis.close();
-                            if (bos != null) bos.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
 
                     Toast.makeText(AddBird.this,"Validation Successful.",Toast.LENGTH_SHORT).show();
                 }
                 else{
                     Toast.makeText(AddBird.this,"Please fill all the fields..",Toast.LENGTH_SHORT).show();
                 }
+                saveImageToStorage(img_uri);
             }
         });
 
@@ -373,8 +378,15 @@ public class AddBird extends AppCompatActivity {
     }
 
     private void pickImageFromGallery() {
+
+        File picDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        String dirPath = picDir.getPath();
+
+        Uri data = Uri.parse(dirPath);
+
         Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
+        //intent.setType("image/*");
+        intent.setDataAndType(data,"image/*");
         startActivityForResult(intent,IMAGE_PICK_CODE);
     }
 
@@ -430,6 +442,39 @@ public class AddBird extends AppCompatActivity {
         else if(resultCode == RESULT_OK && requestCode == AUDIO_FILE_BROWSE_CODE){
             recFilePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
             txtRecFileName.setText(recFilePath.substring(recFilePath.lastIndexOf("/")+1));
+        }
+    }
+
+    private void saveImageToStorage(Uri uri) {
+        InputStream inputStream;
+        try {
+            //--------------------------------------------
+            inputStream = getContentResolver().openInputStream(uri);
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+//            imgPreview.setImageBitmap(bitmap);
+            currentImageBitmap = bitmap;
+            String picName = "lb_"+new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date())+".png";
+
+            //create a file to write bitmap data
+            File f = new File(this.getFilesDir(), picName);
+            f.createNewFile();
+
+            //Convert bitmap to byte array
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos);
+            byte[] bitmapdata = bos.toByteArray();
+
+            //write the bytes in file
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.write(bitmapdata);
+            fos.flush();
+            fos.close();
+
+            //--------------------------------------------
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
