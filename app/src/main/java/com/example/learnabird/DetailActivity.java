@@ -1,6 +1,7 @@
 package com.example.learnabird;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioAttributes;
@@ -128,7 +129,8 @@ public class DetailActivity extends AppCompatActivity {
                 alert.show();
                 return true;
             case R.id.action_edit:
-                System.out.println("edit pressed");
+                Intent intent = new Intent(DetailActivity.this,EditDetails.class);
+                startActivity(intent);
                 return true;
             default:
                 System.out.println("unkonown pressed");

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:context=".EditDetails">
+
+    <TextView
+        android:id="@+id/lbl_edit_heading"
+        android:layout_width="287dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="62dp"
+        android:layout_marginRight="62dp"
+        android:layout_marginBottom="542dp"
+        android:text="@string/lbl_edit_bird"
+        android:textSize="25sp"
+        tools:text="@string/lbl_edit_bird" />
+
+    <EditText
+        android:id="@+id/txt_edit_name"
+        android:layout_width="269dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="13dp"
+        android:layout_marginRight="13dp"
+        android:layout_marginBottom="470dp"
+        android:ems="10"
+        android:hint="@string/hint_txt_name"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/lbl_edit_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="301dp"
+        android:layout_marginRight="301dp"
+        android:layout_marginBottom="483dp"
+        android:text="@string/lbl_name"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/lbl_edit_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="317dp"
+        android:layout_marginRight="317dp"
+        android:layout_marginBottom="416dp"
+        android:text="@string/lbl_details"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/txt_edit_details"
+        android:layout_width="267dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="13dp"
+        android:layout_marginRight="13dp"
+        android:layout_marginBottom="404dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="@string/hint_txt_details"
+        android:inputType="textMultiLine" />
+
+    <TextView
+        android:id="@+id/lbl_edit_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="298dp"
+        android:layout_marginRight="298dp"
+        android:layout_marginBottom="355dp"
+        android:text="@string/lbl_image"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/img_edit_bird"
+        android:layout_width="208dp"
+        android:layout_height="161dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="73dp"
+        android:layout_marginRight="73dp"
+        android:layout_marginBottom="220dp"
+        android:background="@color/imgBackground"
+        tools:srcCompat="@tools:sample/avatars[2]" />
+
+    <TextView
+        android:id="@+id/lbl_edit_sound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="297dp"
+        android:layout_marginRight="297dp"
+        android:layout_marginBottom="162dp"
+        android:text="@string/lbl_sound"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btn_updateBird"
+        android:layout_width="334dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="13dp"
+        android:layout_marginRight="13dp"
+        android:layout_marginBottom="41dp"
+        android:background="@color/colorPrimary"
+        android:text="@string/btn_text_update_bird" />
+
+    <TextView
+        android:id="@+id/txt_edit_rec_file_name"
+        android:layout_width="269dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="161dp"
+        android:text="@string/lbl_sound_file_name"
+        android:textSize="18sp" />
+
+    <ImageButton
+        android:id="@+id/btn_edit_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="268dp"
+        android:backgroundTint="@color/colorPrimary"
+        app:srcCompat="@android:drawable/ic_menu_camera" />
+
+    <ImageButton
+        android:id="@+id/btn_edit_imageBrowse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="329dp"
+        android:backgroundTint="@color/colorPrimary"
+        app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+    <ImageButton
+        android:id="@+id/btn_edit_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="225dp"
+        android:layout_marginRight="225dp"
+        android:layout_marginBottom="106dp"
+        android:backgroundTint="@color/colorPrimary"
+        app:srcCompat="@android:drawable/ic_media_play" />
+
+    <ImageButton
+        android:id="@+id/btn_edit_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="165dp"
+        android:layout_marginRight="165dp"
+        android:layout_marginBottom="106dp"
+        android:backgroundTint="@color/colorPrimary"
+        app:srcCompat="@android:drawable/ic_btn_speak_now" />
+
+    <ImageButton
+        android:id="@+id/btn_edit_soundBrowse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="106dp"
+        android:layout_marginRight="106dp"
+        android:layout_marginBottom="106dp"
+        android:backgroundTint="@color/colorPrimary"
+        app:srcCompat="@android:drawable/ic_menu_upload_you_tube" />
+
+
+</RelativeLayout>
