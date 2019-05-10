@@ -27,7 +27,7 @@ public class AsyncLoadImage extends AsyncTask<String, Void, Bitmap> {
 
     @Override
     protected void onPreExecute() {
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage("Loading data...");
         progressDialog.show();
     }
 
