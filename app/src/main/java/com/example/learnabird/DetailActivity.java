@@ -108,7 +108,6 @@ public class DetailActivity extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.action_delete:
-                System.out.println("delte pressed");
                 AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
                 builder.setTitle("")
                         .setMessage("Want to delete this content?")
@@ -120,7 +119,7 @@ public class DetailActivity extends AppCompatActivity {
                                     finish();
                                 }
                                 else{
-                                    Toast.makeText(DetailActivity.this,"Cannot Delete!!",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(DetailActivity.this,"Cannot Delete!",Toast.LENGTH_SHORT).show();
                                 }
                             }
                             })
@@ -130,10 +129,14 @@ public class DetailActivity extends AppCompatActivity {
                 return true;
             case R.id.action_edit:
                 Intent intent = new Intent(DetailActivity.this,EditDetails.class);
+                intent.putExtra("birdId",birdId);
+                intent.putExtra("birdName",tv_birdName.getText().toString());
+                intent.putExtra("birdImageName",pic);
+                intent.putExtra("birdSound",sound);
+                intent.putExtra("birdInfo",tv_birdDetails.getText().toString());
                 startActivity(intent);
                 return true;
             default:
-                System.out.println("unkonown pressed");
                 return false;
         }
     }
@@ -146,8 +149,6 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        mediaPlayer.pause();
-        mediaPlayer.release();
     }
 }
 

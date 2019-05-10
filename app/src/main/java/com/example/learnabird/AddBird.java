@@ -95,8 +95,6 @@ public class AddBird extends AppCompatActivity {
 
         db = new DatabaseHelper(this);
 
-
-
         btnCamera = findViewById(R.id.btn_camera);
         imgPreview = findViewById(R.id.img_bird);
         btnImageBrowse = findViewById(R.id.btn_imageBrowse);
@@ -124,7 +122,6 @@ public class AddBird extends AppCompatActivity {
                 else{
                     openCamera();
                 }
-                openCamera();
             }
 
         });

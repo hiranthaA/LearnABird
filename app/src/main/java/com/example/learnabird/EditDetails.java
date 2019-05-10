@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -23,11 +24,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.learnabird.AsyncTasks.AsyncLoadImage;
 import com.nbsp.materialfilepicker.MaterialFilePicker;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
@@ -73,9 +76,11 @@ public class EditDetails extends AppCompatActivity {
     String rec_file_name;
     TextView txtEditRecFileName;
     TextView txtEditBirdName;
-    TextView txtEditBirdInfo;
-    String selAudioFileType;
+    EditText txtEditBirdInfo;
+    String selAudioFileType="";
 
+    int birdId;
+    String pic;
     String image_file_name;
 
     ProgressDialog progressDialog;
@@ -99,6 +104,27 @@ public class EditDetails extends AppCompatActivity {
         txtEditBirdName = findViewById(R.id.txt_edit_name);
         txtEditBirdInfo = findViewById(R.id.txt_edit_details);
 
+        mediaPlayer = new MediaPlayer();
+
+        final Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            birdId = bundle.getInt("birdId");
+            txtEditBirdName.setText(bundle.getString("birdName"));
+            txtEditBirdInfo.setText(bundle.getString("birdInfo"));
+            image_file_name = bundle.getString("birdImageName");
+            rec_file_name = bundle.getString("birdSound");
+            recFilePath = getExternalFilesDir(Environment.DIRECTORY_MUSIC).getAbsolutePath()+"/"+rec_file_name;
+            txtEditRecFileName.setText(rec_file_name);
+            txtEditBirdInfo.setText(bundle.getString("birdInfo"),TextView.BufferType.EDITABLE);
+
+            getSupportActionBar().setTitle("Learn A Bird : Edit");
+
+            //load images form storage
+            Bitmap bitmap = BitmapFactory.decodeFile(getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath()+"/"+image_file_name);
+            img_uri = Uri.fromFile(new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath()+"/"+image_file_name));
+            imgEditPreview.setImageBitmap(bitmap);
+        }
+
         btnEditCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,7 +141,6 @@ public class EditDetails extends AppCompatActivity {
                 else{
                     openCamera();
                 }
-                openCamera();
             }
 
         });
@@ -144,15 +169,15 @@ public class EditDetails extends AppCompatActivity {
                 if(playStatus){
                     if(mediaPlayer != null){
                         mediaPlayer.stop();
-                        mediaPlayer.release();
+                        //mediaPlayer.release();
                     }
                     playStatus = false;
                     btnEditPlayStop.setImageResource(R.drawable.ic_play_white_32dp);
                     Toast.makeText(EditDetails.this,"Sound preview stopped.",Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    mediaPlayer = new MediaPlayer();
                     try {
+                        mediaPlayer = new MediaPlayer();
                         mediaPlayer.setDataSource(recFilePath);
                         mediaPlayer.prepare();
                         mediaPlayer.start();
@@ -270,7 +295,7 @@ public class EditDetails extends AppCompatActivity {
             //while not recording press button
             if(mediaPlayer!=null && mediaPlayer.isPlaying()){
                 mediaPlayer.stop();
-                mediaPlayer.release();
+                //mediaPlayer.release();
                 playStatus = false;
                 btnEditPlayStop.setImageResource(R.drawable.ic_play_white_32dp);
             }
@@ -436,57 +461,66 @@ public class EditDetails extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            progressDialog.setMessage("Saving data... Please wait...");
+            progressDialog.setMessage("Updating data... Please wait...");
             progressDialog.show();
         }
 
         @Override
         protected Boolean doInBackground(String... strings) {
-
-            InputStream inputStream;
-            try {
-                //--------------------------------------------
-                inputStream = getContentResolver().openInputStream(uri);
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                if (!img_uri.getLastPathSegment().equals(image_file_name)) {
+                    InputStream inputStream;
+                    try {
+                        //--------------------------------------------
+                        inputStream = getContentResolver().openInputStream(uri);
+                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 //            imgPreview.setImageBitmap(bitmap);
-                String picName = strings[0];
-                image_file_name = picName;
-                //create a file to write bitmap data
-                //File f = new File(this.getFilesDir(), picName);
-                File f = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), picName);
-                f.createNewFile();
+                        String picName = strings[0];
+                        image_file_name = picName;
+                        //create a file to write bitmap data
+                        //File f = new File(this.getFilesDir(), picName);
+                        File f = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), picName);
+                        f.createNewFile();
 
-                //Convert bitmap to byte array
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos);
-                byte[] bitmapdata = bos.toByteArray();
+                        //Convert bitmap to byte array
+                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos);
+                        byte[] bitmapdata = bos.toByteArray();
 
-                //write the bytes in file
-                FileOutputStream fos = new FileOutputStream(f);
-                fos.write(bitmapdata);
-                fos.flush();
-                fos.close();
+                        //write the bytes in file
+                        FileOutputStream fos = new FileOutputStream(f);
+                        fos.write(bitmapdata);
+                        fos.flush();
+                        fos.close();
 
-                //--------------------------------------------
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            //copy browsed audio file to app path
-            if(selAudioFileType.equals("file")){
-                copyFile(recFilePath,getExternalFilesDir(Environment.DIRECTORY_MUSIC).toString()+"/"+rec_file_name);
-            }
-            db.addBird(txtEditBirdName.getText().toString(),txtEditBirdInfo.getText().toString(),image_file_name,rec_file_name);
+                        //--------------------------------------------
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
 
-            return true;
+                //copy browsed audio file to app path
+                if (selAudioFileType.equals("file")) {
+                    copyFile(recFilePath, getExternalFilesDir(Environment.DIRECTORY_MUSIC).toString() + "/" + rec_file_name);
+                }
+
+                boolean dbUpdateOK = db.updateBird(birdId, txtEditBirdName.getText().toString(), txtEditBirdInfo.getText().toString(), image_file_name, rec_file_name);
+                if(dbUpdateOK){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+
         }
+
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             progressDialog.dismiss();
             AlertDialog.Builder builder = new AlertDialog.Builder(EditDetails.this);
-            builder.setMessage("Saved successfully.").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setMessage("Updated successfully.").setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     finish();
@@ -496,7 +530,6 @@ public class EditDetails extends AppCompatActivity {
             alert.setCancelable(false);
             alert.setCanceledOnTouchOutside(false);
             alert.show();
-
         }
     }
 }
