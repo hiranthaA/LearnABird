@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
     private int refreshCount;
 
     public static ProgressDialog progressDialog;
+    private static final int DETAIL_ACTIVITY_REQUEST_CODE=3000;
+    private static final int ADD_BIRD_REQUEST_CODE=6000;
 
 
     @Override
@@ -98,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("birdSound", arrBirdSounds[position]);
                 intent.putExtra("birdId",arrBirdIds[position]);
                 intent.putExtra("location",arrLocation[position]);
-                startActivity(intent);
+                startActivityForResult(intent,DETAIL_ACTIVITY_REQUEST_CODE);
             }
         });
 
@@ -106,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,AddBird.class);
-                startActivity(intent);
+                startActivityForResult(intent,ADD_BIRD_REQUEST_CODE);
             }
         });
 
@@ -273,5 +275,14 @@ public class MainActivity extends AppCompatActivity {
         }).setNegativeButton("Cancel",null);
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // check if the request code is same as what is passed
+        if(resultCode == DETAIL_ACTIVITY_REQUEST_CODE || resultCode == ADD_BIRD_REQUEST_CODE) {
+            loadData();
+        }
     }
 }
