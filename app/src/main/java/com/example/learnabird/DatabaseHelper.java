@@ -28,7 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             COLUMN_SOUND+ " VARCHAR)";
     private static final String DROP_TABLE_SQL = "DROP TABLE "+TABLE_NAME;
 
-    private String DELETE_TABLE_ROW = "DELETE FROM " + TABLE_NAME + " WHERE id = ";
+    private String Update_TABLE_ROW = "DELETE FROM " + TABLE_NAME + " WHERE id = ";
 
     private Context context;
 
@@ -88,8 +88,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean deleteBird(int id) {
-        String[] args = new String[]{Integer.toString(id)};
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TABLE_NAME, "ID=?",new String[]{Integer.toString(id)}) > 0;
+    }
+
+    public boolean updateBird(int id, String name, String info, String photo, String sound){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_NAME,name);
+        contentValues.put(COLUMN_INFO,info);
+        contentValues.put(COLUMN_IMAGE,photo);
+        contentValues.put(COLUMN_SOUND,sound);
+        return db.update(TABLE_NAME,contentValues,"ID=?",new String[]{Integer.toString(id)}) > 0;
     }
 }
