@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -29,6 +30,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
     public static ProgressDialog progressDialog;
     private static final int DETAIL_ACTIVITY_REQUEST_CODE=3000;
     private static final int ADD_BIRD_REQUEST_CODE=6000;
+
+    private Map imgCache;
 
 
     @Override

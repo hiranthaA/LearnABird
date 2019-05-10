@@ -278,7 +278,6 @@ public class AddBird extends AppCompatActivity {
             //while not recording press button
             if(mediaPlayer!=null && mediaPlayer.isPlaying()){
                 mediaPlayer.stop();
-                mediaPlayer.release();
                 playStatus = false;
                 btnPlayStop.setImageResource(R.drawable.ic_play_white_32dp);
             }
