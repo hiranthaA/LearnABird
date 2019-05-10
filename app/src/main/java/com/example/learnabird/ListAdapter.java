@@ -13,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.learnabird.model.Executable;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,7 +29,8 @@ public class ListAdapter extends ArrayAdapter {
     private String[] birdPics;
     private String[] locations;
     private Context context;
-    private Map<String,Bitmap> imgCacheMap = new HashMap<>();
+    public Map<Integer,Bitmap> imgCacheMap = new HashMap<>();
+
 
     private String storage="/storage/emulated/0/Android/data/com.example.learnabird/files/Pictures/";
     public ListAdapter(Context context, String[] names, String[] pics, String[] locations) {
@@ -46,6 +49,7 @@ public class ListAdapter extends ArrayAdapter {
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        System.out.println("ZZZ "+position+" "+birdNames[position]);
         ViewHolder viewHolder = new ViewHolder();
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -58,16 +62,17 @@ public class ListAdapter extends ArrayAdapter {
             viewHolder = (ViewHolder)convertView.getTag();
         }
 
-        if(imgCacheMap.containsKey(birdPics[position])) {
-                Bitmap bitmap = imgCacheMap.get(birdPics[position]);
+        if(imgCacheMap.containsKey(position)) {
+                Bitmap bitmap = imgCacheMap.get(position);
                 viewHolder.mBird.setImageBitmap(bitmap);
         }else{
             if (locations[position].equals("api")) {
-                new AsyncLoadImage(viewHolder.mBird).execute(birdPics[position]);
+                Executable executable = new Executable(position,birdPics[position]);
+                new AsyncLoadURLImage(viewHolder.mBird).execute(executable);
             } else {
                 //load data from db
                 Bitmap bitmap = resizeBitmap(storage + birdPics[position]);
-                imgCacheMap.put(birdPics[position],bitmap);
+                imgCacheMap.put(position,bitmap);
                 viewHolder.mBird.setImageBitmap(bitmap);
             }
         }
@@ -95,13 +100,13 @@ public class ListAdapter extends ArrayAdapter {
         return bitmap;
     }
 
-    public class AsyncLoadImage extends AsyncTask<String, Void, Bitmap> {
+    public class AsyncLoadURLImage extends AsyncTask<Executable, Void, Bitmap> {
 
         ImageView target;
         ProgressDialog progressDialog;
-        String position;
+        int position;
 
-        public AsyncLoadImage(ImageView imageView){
+        public AsyncLoadURLImage(ImageView imageView){
             this.target = imageView;
             progressDialog = MainActivity.progressDialog;
         }
@@ -113,12 +118,11 @@ public class ListAdapter extends ArrayAdapter {
         }
 
         @Override
-        protected Bitmap doInBackground(String... images) {
-
-            position = images[0];
+        protected Bitmap doInBackground(Executable... executable) {
             Bitmap result = null;
+            position = executable[0].getPos();
             try {
-                URL url = new URL(MainActivity.host +position);
+                URL url = new URL(MainActivity.host +executable[0].getName());
                 InputStream in = url.openStream();
                 result = BitmapFactory.decodeStream(in);
             } catch (MalformedURLException e) {
@@ -132,8 +136,8 @@ public class ListAdapter extends ArrayAdapter {
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             super.onPostExecute(bitmap);
-            target.setImageBitmap(bitmap);
             imgCacheMap.put(position,bitmap);
+            target.setImageBitmap(bitmap);
             progressDialog.dismiss();
         }
     }

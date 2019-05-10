@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -30,7 +29,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,8 +57,6 @@ public class MainActivity extends AppCompatActivity {
     public static ProgressDialog progressDialog;
     private static final int DETAIL_ACTIVITY_REQUEST_CODE=3000;
     private static final int ADD_BIRD_REQUEST_CODE=6000;
-
-    private Map imgCache;
 
 
     @Override
@@ -134,8 +130,6 @@ public class MainActivity extends AppCompatActivity {
                     arrlstDbBirdInfo.add(data.getString(2));
                     arrlstDbBirdPhotos.add(data.getString(3));
                     arrlstDbBirdSounds.add(data.getString(4));
-//                    android.widget.ListAdapter listAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,alarmlist);
-//                    alarmListView.setAdapter(listAdapter);
                 }
             }
         }
