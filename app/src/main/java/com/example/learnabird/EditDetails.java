@@ -54,10 +54,12 @@ public class EditDetails extends AppCompatActivity {
     private static final int IMAGE_PICK_CODE = 1002;
     private static final int IMAGE_CAPTURE_CODE = 1003;
     private static final int AUDIO_FILE_BROWSE_CODE = 1005;
+    private static final int EDIT_DETAILS_REQUEST_CODE=2000;
 
     private DatabaseHelper db;
 
     String currentImagePath;
+
     Bitmap currentImageBitmap;
 
     ImageButton btnEditCamera;
@@ -523,7 +525,7 @@ public class EditDetails extends AppCompatActivity {
             builder.setMessage("Updated successfully.").setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    finish();
+                    sendDataBack();
                 }
             });
             AlertDialog alert = builder.create();
@@ -531,5 +533,22 @@ public class EditDetails extends AppCompatActivity {
             alert.setCanceledOnTouchOutside(false);
             alert.show();
         }
+    }
+
+    public void sendDataBack(){
+        Intent intent=new Intent();
+        intent.putExtra("updatedName",txtEditBirdName.getText().toString());
+        intent.putExtra("updatedInfo",txtEditBirdInfo.getText().toString());
+        intent.putExtra("updatedPhoto",image_file_name);
+        intent.putExtra("updatedSound",rec_file_name);
+        setResult(EDIT_DETAILS_REQUEST_CODE,intent);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent=new Intent();
+        setResult(4000,intent);
+        finish();
     }
 }

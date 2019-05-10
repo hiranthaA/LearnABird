@@ -58,6 +58,7 @@ public class AddBird extends AppCompatActivity {
     private static final int IMAGE_PICK_CODE = 1002;
     private static final int IMAGE_CAPTURE_CODE = 1003;
     private static final int AUDIO_FILE_BROWSE_CODE = 1005;
+    private static final int ADD_BIRD_REQUEST_CODE=6000;
 
     private DatabaseHelper db;
 
@@ -519,6 +520,8 @@ public class AddBird extends AppCompatActivity {
             builder.setMessage("Saved successfully.").setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent();
+                    setResult(ADD_BIRD_REQUEST_CODE,intent);
                     finish();
                 }
             });

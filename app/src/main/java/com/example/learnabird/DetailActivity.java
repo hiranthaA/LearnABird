@@ -30,7 +30,7 @@ import java.io.IOException;
 public class DetailActivity extends AppCompatActivity {
 
     private ImageView iv_imgPreview;
-    private TextView tv_birdName;
+    public TextView tv_birdName;
     private TextView tv_birdDetails;
     private Button btn_playSound;
     private MediaPlayer mediaPlayer;
@@ -39,6 +39,9 @@ public class DetailActivity extends AppCompatActivity {
     private String pic;
     private String sound;
     private DatabaseHelper db;
+    Boolean isViewChanged = false;
+    private static final int EDIT_DETAILS_REQUEST_CODE=2000;
+    private static final int DETAIL_ACTIVITY_REQUEST_CODE=3000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +119,8 @@ public class DetailActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 if(db.deleteBird(birdId)){
                                     Toast.makeText(DetailActivity.this,"Deleted successfully.",Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent();
+                                    setResult(DETAIL_ACTIVITY_REQUEST_CODE,intent);
                                     finish();
                                 }
                                 else{
@@ -134,7 +139,8 @@ public class DetailActivity extends AppCompatActivity {
                 intent.putExtra("birdImageName",pic);
                 intent.putExtra("birdSound",sound);
                 intent.putExtra("birdInfo",tv_birdDetails.getText().toString());
-                startActivity(intent);
+                //startActivity(intent);
+                startActivityForResult(intent, EDIT_DETAILS_REQUEST_CODE);
                 return true;
             default:
                 return false;
@@ -149,6 +155,43 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // check if the request code is same as what is passed
+        if(resultCode == EDIT_DETAILS_REQUEST_CODE) {
+            {
+                tv_birdName.setText(data.getStringExtra("updatedName"));
+                tv_birdDetails.setText(data.getStringExtra("updatedInfo"));
+                pic = data.getStringExtra("updatedPhoto");
+                sound = data.getStringExtra("updatedSound");
+                Bitmap bitmap = BitmapFactory.decodeFile(getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath()+"/"+pic);
+                iv_imgPreview.setImageBitmap(bitmap);
+                getSupportActionBar().setTitle("Learn A Bird : " + data.getStringExtra("updatedName"));
+                isViewChanged = true;
+                try {
+                    mediaPlayer = new MediaPlayer();
+                    mediaPlayer.setDataSource(getExternalFilesDir(Environment.DIRECTORY_MUSIC).getAbsolutePath()+"/"+sound);
+                    mediaPlayer.prepare();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(isViewChanged){
+            Intent intent = new Intent();
+            setResult(3000,intent);
+            finish();
+        }
+        else{
+            finish();
+        }
     }
 }
 
