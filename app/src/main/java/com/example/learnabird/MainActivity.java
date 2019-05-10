@@ -130,8 +130,6 @@ public class MainActivity extends AppCompatActivity {
                     arrlstDbBirdInfo.add(data.getString(2));
                     arrlstDbBirdPhotos.add(data.getString(3));
                     arrlstDbBirdSounds.add(data.getString(4));
-//                    android.widget.ListAdapter listAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,alarmlist);
-//                    alarmListView.setAdapter(listAdapter);
                 }
             }
         }
