@@ -121,6 +121,9 @@ public class DetailActivity extends AppCompatActivity {
                                     Toast.makeText(DetailActivity.this,"Deleted successfully.",Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent();
                                     setResult(DETAIL_ACTIVITY_REQUEST_CODE,intent);
+                                    if(mediaPlayer!=null & mediaPlayer.isPlaying()){
+                                        mediaPlayer.stop();
+                                    }
                                     finish();
                                 }
                                 else{
@@ -191,6 +194,9 @@ public class DetailActivity extends AppCompatActivity {
         }
         else{
             finish();
+        }
+        if(mediaPlayer!=null & mediaPlayer.isPlaying()){
+            mediaPlayer.stop();
         }
     }
 }
