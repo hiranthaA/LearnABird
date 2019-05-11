@@ -16,7 +16,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,7 +54,9 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseHelper db;
 
     private SwipeRefreshLayout swipeRefreshLayout;
-    private int refreshCount;
+
+    private ImageButton imgDelete;
+    private ImageButton imgEdit;
 
     public static ProgressDialog progressDialog;
     private static final int DETAIL_ACTIVITY_REQUEST_CODE=3000;
@@ -68,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
         lstBirds = findViewById(R.id.lstBirds);
         fabAddBirds = findViewById(R.id.fab_add_bird);
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
+        imgDelete = findViewById(R.id.btn_main_list_delete);
+        imgEdit = findViewById(R.id.btn_main_list_edit);
 
         db = new DatabaseHelper(this);
 
@@ -255,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            ListAdapter listAdapter = new ListAdapter(MainActivity.this,arrBirdNames, arrBirdPics, arrLocation);
+            ListAdapter listAdapter = new ListAdapter(MainActivity.this,arrBirdNames, arrBirdPics, arrLocation,arrBirdIds,arrBirdDetails,arrBirdSounds);
             lstBirds.setAdapter(listAdapter);
             progressDialog.dismiss();
 
