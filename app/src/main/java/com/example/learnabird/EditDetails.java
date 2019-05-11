@@ -243,7 +243,7 @@ public class EditDetails extends AppCompatActivity {
     }
 
     public boolean validteTextView(TextView txtview){
-        if(txtview ==null || txtview.getText().equals("")){
+        if(txtview ==null || txtview.getText().toString().equals("")){
             return false;
         }
         return true;
