@@ -130,6 +130,15 @@ public class ListAdapter extends ArrayAdapter {
                 viewHolder.mBird.setImageBitmap(bitmap);
             }
         }
+        if(locations[position]=="api"){
+            viewHolder.mDelete.setVisibility(View.INVISIBLE);
+            viewHolder.mEdit.setVisibility(View.INVISIBLE);
+        }
+        else{
+            viewHolder.mDelete.setVisibility(View.VISIBLE);
+            viewHolder.mEdit.setVisibility(View.VISIBLE);
+        }
+
         viewHolder.mName.setText(birdNames[position]);
         return convertView;
     }
