@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     public static ProgressDialog progressDialog;
     private static final int DETAIL_ACTIVITY_REQUEST_CODE=3000;
     private static final int ADD_BIRD_REQUEST_CODE=6000;
-
+    private static final int EDIT_DETAILS_REQUEST_VIA_LISTVIEW = 9000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -261,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            ListAdapter listAdapter = new ListAdapter(MainActivity.this,arrBirdNames, arrBirdPics, arrLocation,arrBirdIds,arrBirdDetails,arrBirdSounds);
+            ListAdapter listAdapter = new ListAdapter(MainActivity.this,arrBirdNames, arrBirdPics, arrLocation,arrBirdIds,arrBirdDetails,arrBirdSounds,MainActivity.this);
             lstBirds.setAdapter(listAdapter);
             progressDialog.dismiss();
 
@@ -285,7 +285,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // check if the request code is same as what is passed
-        if(resultCode == DETAIL_ACTIVITY_REQUEST_CODE || resultCode == ADD_BIRD_REQUEST_CODE) {
+        if(resultCode == DETAIL_ACTIVITY_REQUEST_CODE || resultCode == ADD_BIRD_REQUEST_CODE || resultCode == EDIT_DETAILS_REQUEST_VIA_LISTVIEW) {
             loadData();
         }
     }

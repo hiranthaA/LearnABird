@@ -39,10 +39,11 @@ public class ListAdapter extends ArrayAdapter {
     private Context context;
     public Map<Integer,Bitmap> imgCacheMap = new HashMap<>();
     DatabaseHelper db;
-
+    MainActivity mainActivityRef;
+    private int EDIT_DETAILS_REQUEST_VIA_LISTVIEW=9000;
 
     private String storage="/storage/emulated/0/Android/data/com.example.learnabird/files/Pictures/";
-    public ListAdapter(Context context, String[] names, String[] pics, String[] locations, int[] ids, String[] details,String[] sounds) {
+    public ListAdapter(Context context, String[] names, String[] pics, String[] locations, int[] ids, String[] details,String[] sounds,MainActivity mainActivity) {
         super(context, R.layout.list_view_item);
         this.birdNames = names;
         this.birdPics = pics;
@@ -51,6 +52,7 @@ public class ListAdapter extends ArrayAdapter {
         this.birdDetails=details;
         this.birdSounds=sounds;
         this.context = context;
+        this.mainActivityRef = mainActivity;
         db = new DatabaseHelper(getContext());
     }
 
@@ -84,8 +86,7 @@ public class ListAdapter extends ArrayAdapter {
                                 public void onClick(DialogInterface dialog, int which) {
                                     if(db.deleteBird(birdIds[position])){
                                         Toast.makeText(getContext(),"Deleted successfully.",Toast.LENGTH_SHORT).show();
-        //                                    MainActivity mainActivity = new MainActivity();
-        //                                    mainActivity.loadData();
+                                        mainActivityRef.loadData();
                                     }
                                     else{
                                         Toast.makeText(getContext(),"Cannot Delete!",Toast.LENGTH_SHORT).show();
@@ -107,8 +108,7 @@ public class ListAdapter extends ArrayAdapter {
                     intent.putExtra("birdImageName",birdPics[position]);
                     intent.putExtra("birdSound",birdSounds[position]);
                     intent.putExtra("birdInfo",birdDetails[position]);
-                    context.startActivity(intent);
-                    //Intent.startActivityForResult(intent, EDIT_DETAILS_REQUEST_CODE);
+                    mainActivityRef.startActivityForResult(intent,EDIT_DETAILS_REQUEST_VIA_LISTVIEW);
                 }
             });
         }

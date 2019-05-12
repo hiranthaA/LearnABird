@@ -542,6 +542,7 @@ public class EditDetails extends AppCompatActivity {
         intent.putExtra("updatedPhoto",image_file_name);
         intent.putExtra("updatedSound",rec_file_name);
         setResult(EDIT_DETAILS_REQUEST_CODE,intent);
+        setResult(9900);
         finish();
     }
 
