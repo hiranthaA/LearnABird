@@ -108,6 +108,7 @@ public class ListAdapter extends ArrayAdapter {
                     intent.putExtra("birdImageName",birdPics[position]);
                     intent.putExtra("birdSound",birdSounds[position]);
                     intent.putExtra("birdInfo",birdDetails[position]);
+                    intent.putExtra("from","list");
                     mainActivityRef.startActivityForResult(intent,EDIT_DETAILS_REQUEST_VIA_LISTVIEW);
                 }
             });

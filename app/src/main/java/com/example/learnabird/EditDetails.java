@@ -55,6 +55,7 @@ public class EditDetails extends AppCompatActivity {
     private static final int IMAGE_CAPTURE_CODE = 1003;
     private static final int AUDIO_FILE_BROWSE_CODE = 1005;
     private static final int EDIT_DETAILS_REQUEST_CODE=2000;
+    private int EDIT_DETAILS_REQUEST_VIA_LISTVIEW=9000;
 
     private DatabaseHelper db;
 
@@ -80,6 +81,7 @@ public class EditDetails extends AppCompatActivity {
     TextView txtEditBirdName;
     EditText txtEditBirdInfo;
     String selAudioFileType="";
+    String editReqFrom;
 
     int birdId;
     String pic;
@@ -115,6 +117,7 @@ public class EditDetails extends AppCompatActivity {
             txtEditBirdInfo.setText(bundle.getString("birdInfo"));
             image_file_name = bundle.getString("birdImageName");
             rec_file_name = bundle.getString("birdSound");
+            editReqFrom = bundle.getString("from");
             recFilePath = getExternalFilesDir(Environment.DIRECTORY_MUSIC).getAbsolutePath()+"/"+rec_file_name;
             txtEditRecFileName.setText(rec_file_name);
             txtEditBirdInfo.setText(bundle.getString("birdInfo"),TextView.BufferType.EDITABLE);
@@ -536,14 +539,19 @@ public class EditDetails extends AppCompatActivity {
     }
 
     public void sendDataBack(){
-        Intent intent=new Intent();
-        intent.putExtra("updatedName",txtEditBirdName.getText().toString());
-        intent.putExtra("updatedInfo",txtEditBirdInfo.getText().toString());
-        intent.putExtra("updatedPhoto",image_file_name);
-        intent.putExtra("updatedSound",rec_file_name);
-        setResult(EDIT_DETAILS_REQUEST_CODE,intent);
-        setResult(9900);
-        finish();
+        if(editReqFrom.equals("details")){
+            Intent intent=new Intent();
+            intent.putExtra("updatedName",txtEditBirdName.getText().toString());
+            intent.putExtra("updatedInfo",txtEditBirdInfo.getText().toString());
+            intent.putExtra("updatedPhoto",image_file_name);
+            intent.putExtra("updatedSound",rec_file_name);
+            setResult(EDIT_DETAILS_REQUEST_CODE,intent);
+            finish();
+        }
+        else{
+            setResult(EDIT_DETAILS_REQUEST_VIA_LISTVIEW);
+            finish();
+        }
     }
 
     @Override
