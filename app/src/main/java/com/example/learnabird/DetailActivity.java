@@ -142,7 +142,7 @@ public class DetailActivity extends AppCompatActivity {
                 intent.putExtra("birdImageName",pic);
                 intent.putExtra("birdSound",sound);
                 intent.putExtra("birdInfo",tv_birdDetails.getText().toString());
-                //startActivity(intent);
+                intent.putExtra("from","details");
                 startActivityForResult(intent, EDIT_DETAILS_REQUEST_CODE);
                 return true;
             default:

@@ -16,7 +16,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,12 +54,14 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseHelper db;
 
     private SwipeRefreshLayout swipeRefreshLayout;
-    private int refreshCount;
+
+    private ImageButton imgDelete;
+    private ImageButton imgEdit;
 
     public static ProgressDialog progressDialog;
     private static final int DETAIL_ACTIVITY_REQUEST_CODE=3000;
     private static final int ADD_BIRD_REQUEST_CODE=6000;
-
+    private static final int EDIT_DETAILS_REQUEST_VIA_LISTVIEW = 9000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
         lstBirds = findViewById(R.id.lstBirds);
         fabAddBirds = findViewById(R.id.fab_add_bird);
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
+        imgDelete = findViewById(R.id.btn_main_list_delete);
+        imgEdit = findViewById(R.id.btn_main_list_edit);
 
         db = new DatabaseHelper(this);
 
@@ -255,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            ListAdapter listAdapter = new ListAdapter(MainActivity.this,arrBirdNames, arrBirdPics, arrLocation);
+            ListAdapter listAdapter = new ListAdapter(MainActivity.this,arrBirdNames, arrBirdPics, arrLocation,arrBirdIds,arrBirdDetails,arrBirdSounds,MainActivity.this);
             lstBirds.setAdapter(listAdapter);
             progressDialog.dismiss();
 
@@ -279,7 +285,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // check if the request code is same as what is passed
-        if(resultCode == DETAIL_ACTIVITY_REQUEST_CODE || resultCode == ADD_BIRD_REQUEST_CODE) {
+        if(resultCode == DETAIL_ACTIVITY_REQUEST_CODE || resultCode == ADD_BIRD_REQUEST_CODE || resultCode == EDIT_DETAILS_REQUEST_VIA_LISTVIEW) {
             loadData();
         }
     }
