@@ -15,9 +15,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_learn_a_bird_app_icon_fg"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_learn_a_bird_app_icon_fg"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".EditDetails"></activity>
