@@ -39,7 +39,9 @@
         android:layout_toRightOf="@+id/imgView_list_item_img"
         android:text="TextView"
         android:textIsSelectable="false"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:gravity="left|center"/>
 
     <ImageButton
         android:id="@+id/btn_main_list_delete"
