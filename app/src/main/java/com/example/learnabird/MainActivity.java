@@ -18,7 +18,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,9 +54,6 @@ public class MainActivity extends AppCompatActivity {
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private ImageButton imgDelete;
-    private ImageButton imgEdit;
-
     public static ProgressDialog progressDialog;
     private static final int DETAIL_ACTIVITY_REQUEST_CODE=3000;
     private static final int ADD_BIRD_REQUEST_CODE=6000;
@@ -72,30 +68,32 @@ public class MainActivity extends AppCompatActivity {
         lstBirds = findViewById(R.id.lstBirds);
         fabAddBirds = findViewById(R.id.fab_add_bird);
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
-        imgDelete = findViewById(R.id.btn_main_list_delete);
-        imgEdit = findViewById(R.id.btn_main_list_edit);
 
+        //create a instance of database database connection
         db = new DatabaseHelper(this);
 
+        //server and api details
         host = "https://learn-a-bird-server.herokuapp.com/";
         getDataURL = host+"bird/getall";
 
-        //load data to the app from api and db
+        //load data from the server and the database
         loadData();
 
         //add Icon to action bar
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         //getSupportActionBar().setIcon(R.drawable.ic_delete_white_24dp);
 
+        //on swiping down in the main menu list will reload the list data.
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                System.out.println("Refreshed");
                 loadData();
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
 
+        //on click on list items, detailed view will be displayed
+        //data required will be pass as extra in the intent
         lstBirds.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -110,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //display "add bird" activity
         fabAddBirds.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //load data stored in the database to the list
     public void loadDbData(){
         arrlstDbBirdNames = new ArrayList<String>();
         arrlstDbBirdInfo = new ArrayList<String>();
@@ -139,11 +139,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-        System.out.println("data loaded");
     }
 
+    //load data from both api and the database to the list
     public void loadData(){
-
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         if( activeNetworkInfo != null && activeNetworkInfo.isConnected()){
@@ -170,6 +169,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /*
+    This method is use to get data from the server
+    This is a asynchronous task which runs on background and updates the list in the main thread
+    with the data obtained from the server.
+     */
     public class LoadApiData extends AsyncTask<String, Void, String> {
 
         public LoadApiData() {
@@ -191,6 +195,7 @@ public class MainActivity extends AppCompatActivity {
             URL url;
             HttpURLConnection urlConnection = null;
 
+            //get data from the server via internet
             try {
                 url = new URL(urls[0]);
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -212,15 +217,13 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             return null;
         }
 
         @Override
         protected void onPostExecute(String result) {
 
-            Log.i("API content:",result);
-
+            //retrieve json data and store in arrays in main thread for later use
             try {
                 JSONArray jsonArray = new JSONArray(result);
                 int apiDataSize = jsonArray.length();
@@ -254,13 +257,11 @@ public class MainActivity extends AppCompatActivity {
                     arrLocation[count] = "db";
                     count++;
                 }
-
-                System.out.println("merging lists ok");
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
+            //bind ListAdapter with the ListView
             ListAdapter listAdapter = new ListAdapter(MainActivity.this,arrBirdNames, arrBirdPics, arrLocation,arrBirdIds,arrBirdDetails,arrBirdSounds,MainActivity.this);
             lstBirds.setAdapter(listAdapter);
             progressDialog.dismiss();
@@ -268,6 +269,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /*
+    This method defines what happens when back button is pressed on main menu
+    application will ask for a confirmation
+     */
     @Override
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -281,6 +286,9 @@ public class MainActivity extends AppCompatActivity {
         alert.show();
     }
 
+    /*
+
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
