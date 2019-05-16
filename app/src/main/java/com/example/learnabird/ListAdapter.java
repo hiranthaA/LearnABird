@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,7 +85,9 @@ public class ListAdapter extends ArrayAdapter {
                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    if(db.deleteBird(birdIds[position])){
+                                    File targetPhoto = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), birdPics[position]);
+                                    File targetSound = new File(context.getExternalFilesDir(Environment.DIRECTORY_MUSIC), birdSounds[position]);
+                                    if(targetPhoto.delete() && targetSound.delete() && db.deleteBird(birdIds[position])){
                                         Toast.makeText(getContext(),"Deleted successfully.",Toast.LENGTH_SHORT).show();
                                         mainActivityRef.loadData();
                                     }
