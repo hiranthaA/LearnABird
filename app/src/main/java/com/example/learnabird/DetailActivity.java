@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.learnabird.AsyncTasks.AsyncLoadImage;
 
+import java.io.File;
 import java.io.IOException;
 
 public class DetailActivity extends AppCompatActivity {
@@ -117,7 +118,9 @@ public class DetailActivity extends AppCompatActivity {
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                if(db.deleteBird(birdId)){
+                                File targetPhoto = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), pic);
+                                File targetSound = new File(getExternalFilesDir(Environment.DIRECTORY_MUSIC), sound);
+                                if(targetPhoto.delete() && targetSound.delete() && db.deleteBird(birdId)){
                                     Toast.makeText(DetailActivity.this,"Deleted successfully.",Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent();
                                     setResult(DETAIL_ACTIVITY_REQUEST_CODE,intent);
