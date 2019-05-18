@@ -4,22 +4,18 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +52,7 @@ public class DetailActivity extends AppCompatActivity {
         tv_birdDetails = findViewById(R.id.txt_birdDetails);
         tv_birdDetails.setMovementMethod(new ScrollingMovementMethod());
 
+        //initialize with data from the intent
         final Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             birdId = bundle.getInt("birdId");
@@ -79,7 +76,7 @@ public class DetailActivity extends AppCompatActivity {
                 }
             }
             else{
-                //load images form storage
+                //load images and sound files form storage
                 Bitmap bitmap = BitmapFactory.decodeFile(getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath()+"/"+pic);
                 iv_imgPreview.setImageBitmap(bitmap);
                 try {
@@ -192,7 +189,7 @@ public class DetailActivity extends AppCompatActivity {
     public void onBackPressed() {
         if(isViewChanged){
             Intent intent = new Intent();
-            setResult(3000,intent);
+            setResult(DETAIL_ACTIVITY_REQUEST_CODE,intent);
             finish();
         }
         else{

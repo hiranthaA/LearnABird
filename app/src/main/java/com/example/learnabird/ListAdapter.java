@@ -29,6 +29,13 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+
+/*
+Reference: https://www.youtube.com/watch?v=q2XA0Pe2W04
+This ArrayAdapter base is referred from the above youtube video an d customized accordingly
+for the requirements of the application
+*/
+
 public class ListAdapter extends ArrayAdapter {
 
     private String[] birdNames;
@@ -42,8 +49,12 @@ public class ListAdapter extends ArrayAdapter {
     DatabaseHelper db;
     MainActivity mainActivityRef;
     private int EDIT_DETAILS_REQUEST_VIA_LISTVIEW=9000;
-
     private String storage="/storage/emulated/0/Android/data/com.example.learnabird/files/Pictures/";
+
+    /*
+    Constructor
+    Initialize class variables with parameters passed
+     */
     public ListAdapter(Context context, String[] names, String[] pics, String[] locations, int[] ids, String[] details,String[] sounds,MainActivity mainActivity) {
         super(context, R.layout.list_view_item);
         this.birdNames = names;
@@ -65,7 +76,6 @@ public class ListAdapter extends ArrayAdapter {
     @NonNull
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        System.out.println("ZZZ "+position+" "+birdNames[position]);
         ViewHolder viewHolder = new ViewHolder();
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -76,6 +86,7 @@ public class ListAdapter extends ArrayAdapter {
             viewHolder.mEdit = convertView.findViewById(R.id.btn_main_list_edit);
             convertView.setTag(viewHolder);
 
+            //action for delete button in each list item
             viewHolder.mDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -102,6 +113,7 @@ public class ListAdapter extends ArrayAdapter {
                 }
             });
 
+            //action for edit button in each list item
             viewHolder.mEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -120,20 +132,27 @@ public class ListAdapter extends ArrayAdapter {
             viewHolder = (ViewHolder)convertView.getTag();
         }
 
+        //load image from the cache
         if(imgCacheMap.containsKey(position)) {
                 Bitmap bitmap = imgCacheMap.get(position);
                 viewHolder.mBird.setImageBitmap(bitmap);
-        }else{
+        }
+        //load image from the server or database and and add to listview whilr caching it
+        else{
+            //load image from server
             if (locations[position].equals("api")) {
                 Executable executable = new Executable(position,birdPics[position]);
                 new AsyncLoadURLImage(viewHolder.mBird).execute(executable);
-            } else {
-                //load data from db
+            }
+            //load data from db
+            else {
+
                 Bitmap bitmap = resizeBitmap(storage + birdPics[position]);
                 imgCacheMap.put(position,bitmap);
                 viewHolder.mBird.setImageBitmap(bitmap);
             }
         }
+        //remove edit and delete buttons from items which were loaded from the server
         if(locations[position]=="api"){
             viewHolder.mDelete.setVisibility(View.INVISIBLE);
             viewHolder.mEdit.setVisibility(View.INVISIBLE);
@@ -154,6 +173,7 @@ public class ListAdapter extends ArrayAdapter {
         ImageButton mEdit;
     }
 
+    //resize loaded image before adding to list view for higher performance
     public Bitmap resizeBitmap(String path){
         int DESIREDWIDTH = 100;
         int DESIREDHEIGHT = 100;
@@ -169,6 +189,8 @@ public class ListAdapter extends ArrayAdapter {
         return bitmap;
     }
 
+    //connect with sever to get the image from server
+    //background process
     public class AsyncLoadURLImage extends AsyncTask<Executable, Void, Bitmap> {
 
         ImageView target;
