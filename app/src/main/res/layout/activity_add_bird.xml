@@ -42,7 +42,9 @@
         android:layout_toRightOf="@+id/lbl_name"
         android:ems="10"
         android:hint="@string/hint_txt_name"
-        android:inputType="textPersonName" />
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
+        tools:targetApi="o" />
 
     <TextView
         android:id="@+id/lbl_name"
@@ -99,7 +101,9 @@
                 android:ems="10"
                 android:gravity="start|top"
                 android:hint="@string/hint_txt_details"
-                android:inputType="textMultiLine" />
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine"
+                tools:targetApi="o" />
 
             <TextView
                 android:id="@+id/lbl_image"
@@ -129,6 +133,7 @@
                 android:layout_toEndOf="@+id/lbl_image"
                 android:layout_toRightOf="@+id/lbl_image"
                 android:background="@color/imgBackground"
+                android:contentDescription="@string/content_disc_img_preview"
                 tools:srcCompat="@tools:sample/avatars[2]" />
 
             <TextView
@@ -172,7 +177,8 @@
                 android:layout_marginEnd="12dp"
                 android:layout_marginRight="12dp"
                 android:backgroundTint="@color/colorPrimary"
-                app:srcCompat="@android:drawable/ic_menu_camera" />
+                android:contentDescription="@string/content_desc_imgcamera"
+                app:srcCompat="@android:drawable/ic_menu_camera" tools:targetApi="lollipop" />
 
             <ImageButton
                 android:id="@+id/btn_imageBrowse"
@@ -185,7 +191,8 @@
                 android:layout_marginEnd="13dp"
                 android:layout_marginRight="13dp"
                 android:backgroundTint="@color/colorPrimary"
-                app:srcCompat="@android:drawable/ic_menu_gallery" />
+                android:contentDescription="@string/content_desc_imgbrowse"
+                app:srcCompat="@android:drawable/ic_menu_gallery" tools:targetApi="lollipop" />
 
             <ImageButton
                 android:id="@+id/btn_play"
@@ -198,7 +205,8 @@
                 android:layout_toEndOf="@+id/lbl_sound"
                 android:layout_toRightOf="@+id/lbl_sound"
                 android:backgroundTint="@color/colorPrimary"
-                app:srcCompat="@android:drawable/ic_media_play" />
+                android:contentDescription="@string/content_disc_btn_play"
+                app:srcCompat="@android:drawable/ic_media_play" tools:targetApi="lollipop" />
 
             <ImageButton
                 android:id="@+id/btn_record"
@@ -212,7 +220,8 @@
                 android:layout_toEndOf="@+id/btn_play"
                 android:layout_toRightOf="@+id/btn_play"
                 android:backgroundTint="@color/colorPrimary"
-                app:srcCompat="@android:drawable/ic_btn_speak_now" />
+                android:contentDescription="@string/content_disc_btn_record"
+                app:srcCompat="@android:drawable/ic_btn_speak_now" tools:targetApi="lollipop" />
 
             <ImageButton
                 android:id="@+id/btn_soundBrowse"
@@ -225,7 +234,8 @@
                 android:layout_toEndOf="@+id/btn_record"
                 android:layout_toRightOf="@+id/btn_record"
                 android:backgroundTint="@color/colorPrimary"
-                app:srcCompat="@android:drawable/ic_menu_upload_you_tube" />
+                android:contentDescription="@string/content_disc_btn_browse_sound"
+                app:srcCompat="@android:drawable/ic_menu_upload_you_tube" tools:targetApi="lollipop" />
 
         </RelativeLayout>
     </ScrollView>
