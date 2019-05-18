@@ -73,6 +73,6 @@
         android:layout_marginRight="126dp"
         android:text="@string/btn_play_label"
         android:backgroundTint="@color/colorPrimary"
-        tools:text="@string/btn_play_label" />
+        tools:text="@string/btn_play_label" tools:targetApi="lollipop"/>
 
 </RelativeLayout>

@@ -17,5 +17,14 @@
     <string name="btn_text_add_bird">Add Bird</string>
     <string name="btn_text_update_bird">Update Bird</string>
     <string name="lbl_sound_file_name">No sound selected.</string>
+    <string name="content_desc_imgcamera">Open Camera</string>
+    <string name="content_desc_imgbrowse">Open File Browse</string>
+    <string name="content_disc_img_preview">Preview Image</string>
+    <string name="content_disc_btn_play">Play Sound</string>
+    <string name="content_disc_btn_browse_sound">Browse Sound</string>
+    <string name="content_disc_btn_record">Record Sound</string>
+    <string name="content_disc_txt_addname">Name</string>
+    <string name="content_disc_btn_delete">Delete</string>
+
 
 </resources>
