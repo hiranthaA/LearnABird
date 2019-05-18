@@ -16,7 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -39,9 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private String[] arrBirdPics;
     private String[] arrBirdDetails;
     private String[] arrBirdSounds;
-
     private String[] arrLocation;
-
     private ArrayList<String> arrlstDbBirdNames;
     private ArrayList<String> arrlstDbBirdInfo;
     private ArrayList<String> arrlstDbBirdPhotos;
@@ -51,14 +48,16 @@ public class MainActivity extends AppCompatActivity {
     private String getDataURL;
     private int[] arrBirdIds;
     private DatabaseHelper db;
-
     private SwipeRefreshLayout swipeRefreshLayout;
-
     public static ProgressDialog progressDialog;
     private static final int DETAIL_ACTIVITY_REQUEST_CODE=3000;
     private static final int ADD_BIRD_REQUEST_CODE=6000;
     private static final int EDIT_DETAILS_REQUEST_VIA_LISTVIEW = 9000;
 
+
+    /*
+
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,13 +118,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //load data stored in the database to the list
+    /*
+    load data stored in the database to the application for later usage
+     */
     public void loadDbData(){
-        arrlstDbBirdNames = new ArrayList<String>();
-        arrlstDbBirdInfo = new ArrayList<String>();
-        arrlstDbBirdPhotos = new ArrayList<String>();
-        arrlstDbBirdSounds = new ArrayList<String>();
-        arrlstDbBirdIds = new ArrayList<Integer>();
+        arrlstDbBirdNames = new ArrayList<>();
+        arrlstDbBirdInfo = new ArrayList<>();
+        arrlstDbBirdPhotos = new ArrayList<>();
+        arrlstDbBirdSounds = new ArrayList<>();
+        arrlstDbBirdIds = new ArrayList<>();
         Cursor data = db.getBirdList();
 
         if(data!=null){
@@ -141,7 +142,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //load data from both api and the database to the list
+    /*
+    load data from both api and the database to the list
+    this is one of the first methods to run when app opens. This will check for device
+    internet connection to continue loading data from server
+    */
     public void loadData(){
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
@@ -190,7 +195,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... urls) {
-
             String result ="";
             URL url;
             HttpURLConnection urlConnection = null;
@@ -222,7 +226,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-
             //retrieve json data and store in arrays in main thread for later use
             try {
                 JSONArray jsonArray = new JSONArray(result);
@@ -245,7 +248,6 @@ public class MainActivity extends AppCompatActivity {
                     arrBirdSounds[i]=jsonBird.getString("sound");
                     arrLocation[i]="api";
                 }
-
                 //merge db data to api data array
                 int count = apiDataSize;
                 for(int i=0; i< dbDataSize; i++){
@@ -260,18 +262,16 @@ public class MainActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
             //bind ListAdapter with the ListView
             ListAdapter listAdapter = new ListAdapter(MainActivity.this,arrBirdNames, arrBirdPics, arrLocation,arrBirdIds,arrBirdDetails,arrBirdSounds,MainActivity.this);
             lstBirds.setAdapter(listAdapter);
             progressDialog.dismiss();
-
         }
     }
 
     /*
     This method defines what happens when back button is pressed on main menu
-    application will ask for a confirmation
+    application will ask for a app exit confirmation
      */
     @Override
     public void onBackPressed() {
@@ -287,12 +287,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /*
-
-     */
+    listen for results for sent requests
+    */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // check if the request code is same as what is passed
+        // if one of these results were captured, app will refresh the list in the main activity
         if(resultCode == DETAIL_ACTIVITY_REQUEST_CODE || resultCode == ADD_BIRD_REQUEST_CODE || resultCode == EDIT_DETAILS_REQUEST_VIA_LISTVIEW) {
             loadData();
         }

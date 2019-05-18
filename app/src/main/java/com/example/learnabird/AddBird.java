@@ -3,8 +3,6 @@ package com.example.learnabird;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
-import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -23,10 +21,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -36,8 +31,6 @@ import android.widget.Toast;
 import com.nbsp.materialfilepicker.MaterialFilePicker;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -61,10 +54,6 @@ public class AddBird extends AppCompatActivity {
     private static final int ADD_BIRD_REQUEST_CODE=6000;
 
     private DatabaseHelper db;
-
-    String currentImagePath;
-    Bitmap currentImageBitmap;
-
     ImageButton btnCamera;
     ImageButton btnImageBrowse;
     ImageView imgPreview;
@@ -73,19 +62,18 @@ public class AddBird extends AppCompatActivity {
     ImageButton btnSoundBrowse;
     Button btnAddBird;
     Uri img_uri = null;
-    String recFilePath = "";
     MediaRecorder mediaRecorder;
     MediaPlayer mediaPlayer;
     boolean recStatus = false;
     boolean playStatus = false;
-    String rec_file_name;
     TextView txtRecFileName;
     TextView txtBirdName;
     TextView txtBirdInfo;
+    String currentImagePath;
     String selAudioFileType;
-
     String image_file_name;
-
+    String recFilePath = "";
+    String rec_file_name;
     ProgressDialog progressDialog;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -94,8 +82,10 @@ public class AddBird extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_bird);
 
+        //create a new instance of the database connection
         db = new DatabaseHelper(this);
 
+        //initialize UI elements
         btnCamera = findViewById(R.id.btn_camera);
         imgPreview = findViewById(R.id.img_bird);
         btnImageBrowse = findViewById(R.id.btn_imageBrowse);
@@ -107,6 +97,8 @@ public class AddBird extends AppCompatActivity {
         txtBirdName = findViewById(R.id.txt_name);
         txtBirdInfo = findViewById(R.id.txt_details);
 
+        //request for permission to access the device camera.
+        //use the camera if permission is granted
         btnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,6 +119,7 @@ public class AddBird extends AppCompatActivity {
 
         });
 
+        //open file browser for images
         btnImageBrowse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,6 +138,7 @@ public class AddBird extends AppCompatActivity {
             }
         });
 
+        //stop/play sound
         btnPlayStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -175,6 +169,8 @@ public class AddBird extends AppCompatActivity {
             }
         });
 
+        //record sound from mic of the device
+        //ask for permission if required
         btnRecStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -195,6 +191,7 @@ public class AddBird extends AppCompatActivity {
             }
         });
 
+        //browse files for audio files
         btnSoundBrowse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -208,10 +205,11 @@ public class AddBird extends AppCompatActivity {
             }
         });
 
+        //update the details with new data.
         btnAddBird.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(validateImage(img_uri) & validateSound(recFilePath) & validteTextView(txtBirdName) & validteTextView(txtBirdInfo)){
+                if(Utils.validateImage(img_uri) & Utils.validateSound(recFilePath) & Utils.validteTextView(txtBirdName) & Utils.validteTextView(txtBirdInfo)){
                     new SaveData(img_uri).execute("lb_"+new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date())+".png");
                 }
                 else{
@@ -223,34 +221,15 @@ public class AddBird extends AppCompatActivity {
 
     }
 
-    public boolean validteTextView(TextView txtview){
-        if(txtview ==null || txtview.getText().toString().equals("")){
-            return false;
-        }
-        return true;
-    }
-
-    public boolean validateImage(Uri uri){
-        if(uri ==null || uri.equals("")){
-            return false;
-        }
-        return true;
-    }
-
-    public  boolean validateSound(String url){
-        if(url == null || url.equals("")){
-            return false;
-        }
-        else{
-            return true;
-        }
-    }
-
+    //when activity ends
     @Override
     protected void onDestroy() {
         super.onDestroy();
     }
 
+    /*
+    Record audio using device microphone and store in file system
+     */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void recordSound(){
         if(recStatus){
@@ -310,25 +289,6 @@ public class AddBird extends AppCompatActivity {
     }
 
     private void openCamera() {
-//        ContentValues contentValues = new ContentValues();
-//        contentValues.put(MediaStore.Images.Media.TITLE,"New Picture");
-//        contentValues.put(MediaStore.Images.Media.DESCRIPTION,"Photo taken from LearnABird");
-//        img_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,contentValues);
-//        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,img_uri);
-//        startActivityForResult(cameraIntent,IMAGE_CAPTURE_CODE);
-// -----------------------------------------------------------------------------------
-//        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        //cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//        //File picDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-//
-//        String picName = "lb_"+new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date())+".jpg";
-//        //File imgFile = new File(picDir,picName);
-//        File file = new File(this.getFilesDir(), picName);
-//        img_uri = Uri.fromFile(file);
-//
-//        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,img_uri);
-//        startActivityForResult(cameraIntent,IMAGE_CAPTURE_CODE);
 
         //save file using fileprovider code
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -344,6 +304,10 @@ public class AddBird extends AppCompatActivity {
         }
     }
 
+    /*
+    create and return initial image file to store the image in the storage
+    A new name for the file also will be generated here
+     */
     public File getImageFile(){
         String picName = "lb_"+new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
@@ -357,6 +321,9 @@ public class AddBird extends AppCompatActivity {
         return imgFile;
     }
 
+    /*
+    open file browse which has a filter only for images
+     */
     private void pickImageFromGallery() {
 
         File picDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
@@ -370,6 +337,9 @@ public class AddBird extends AppCompatActivity {
         startActivityForResult(intent,IMAGE_PICK_CODE);
     }
 
+    /*
+    listen for permisdion results from the permission requests
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -404,6 +374,9 @@ public class AddBird extends AppCompatActivity {
         }
     }
 
+    /*
+        listen for results for sent requests
+    */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -427,6 +400,9 @@ public class AddBird extends AppCompatActivity {
         }
     }
 
+    /*
+    copy files from browsed location to application directory
+     */
     public boolean copyFile(String from, String to) {
         try {
             File sd = Environment.getExternalStorageDirectory();
@@ -450,6 +426,9 @@ public class AddBird extends AppCompatActivity {
         }
     }
 
+    /*
+    Background process to save new details to the database during adding new bird
+     */
     public class SaveData extends AsyncTask<String, Void, Boolean> {
 
         Uri uri;
@@ -479,9 +458,8 @@ public class AddBird extends AppCompatActivity {
                 String picName = strings[0];
                 image_file_name = picName;
                 //create a file to write bitmap data
-                //File f = new File(this.getFilesDir(), picName);
-                File f = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), picName);
-                f.createNewFile();
+                File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), picName);
+                file.createNewFile();
 
                 //Convert bitmap to byte array
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -489,7 +467,7 @@ public class AddBird extends AppCompatActivity {
                 byte[] bitmapdata = bos.toByteArray();
 
                 //write the bytes in file
-                FileOutputStream fos = new FileOutputStream(f);
+                FileOutputStream fos = new FileOutputStream(file);
                 fos.write(bitmapdata);
                 fos.flush();
                 fos.close();

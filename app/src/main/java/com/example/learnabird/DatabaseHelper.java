@@ -15,8 +15,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_IMAGE="image";
     public static final String COLUMN_SOUND="sound";
 
-    private DatabaseHelper db;
-
+    private Context context;
+    private SQLiteDatabase sqLiteDatabase;
     private static final String DATABASE_NAME = "learnabirddb";
     private static final String TABLE_NAME = "birdinfo";
     private static final int DATABASE_VERSION = 1;
@@ -26,22 +26,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             COLUMN_INFO + " TEXT,"+
             COLUMN_IMAGE + " VARCHAR,"+
             COLUMN_SOUND+ " VARCHAR)";
+
     private static final String DROP_TABLE_SQL = "DROP TABLE "+TABLE_NAME;
 
-    private String Update_TABLE_ROW = "DELETE FROM " + TABLE_NAME + " WHERE id = ";
-
-    private Context context;
-
-    private SQLiteDatabase sqLiteDatabase;
 
     public DatabaseHelper(Context context){
         super(context, DATABASE_NAME,null,DATABASE_VERSION);
         this.context = context;
     }
 
+    /*
+    Initialize database
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
-        //sqLiteDatabase.execSQL(DROP_TABLE_SQL);
         sqLiteDatabase = db;
         sqLiteDatabase.execSQL(CREATE_TABLE_SQL);
     }
@@ -51,7 +49,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(DROP_TABLE_SQL);
     }
 
-
+    /*
+    Add new raw to the database
+    return true if success
+     */
     public boolean addBird(String name, String info, String photo, String sound){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -79,19 +80,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    /*
+    get all stored data from the database
+     */
     public Cursor getBirdList(){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(CREATE_TABLE_SQL);
-        //Cursor list = db.rawQuery("SELECT * FROM "+ TABLE_NAME,null);
         Cursor list = db.rawQuery("SELECT ID,name,info,image,sound FROM "+ TABLE_NAME,null);
         return list;
     }
 
+    /*
+    delete a given entry using the ID of the record
+     */
     public boolean deleteBird(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TABLE_NAME, "ID=?",new String[]{Integer.toString(id)}) > 0;
     }
 
+    /*
+    update a given row with given details by using ID field
+     */
     public boolean updateBird(int id, String name, String info, String photo, String sound){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
