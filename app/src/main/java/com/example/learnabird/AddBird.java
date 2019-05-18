@@ -249,9 +249,6 @@ public class AddBird extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(mediaPlayer !=null && mediaPlayer.isPlaying()){
-            mediaPlayer.stop();
-        }
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

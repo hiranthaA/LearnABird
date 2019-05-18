@@ -88,8 +88,8 @@ public class ListAdapter extends ArrayAdapter {
                                     File targetPhoto = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), birdPics[position]);
                                     File targetSound = new File(context.getExternalFilesDir(Environment.DIRECTORY_MUSIC), birdSounds[position]);
                                     if(targetPhoto.delete() && targetSound.delete() && db.deleteBird(birdIds[position])){
-                                        Toast.makeText(getContext(),"Deleted successfully.",Toast.LENGTH_SHORT).show();
                                         mainActivityRef.loadData();
+                                        Toast.makeText(getContext(),"Deleted successfully.",Toast.LENGTH_SHORT).show();
                                     }
                                     else{
                                         Toast.makeText(getContext(),"Cannot Delete!",Toast.LENGTH_SHORT).show();
