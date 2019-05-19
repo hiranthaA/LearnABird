@@ -83,6 +83,9 @@ public class EditDetails extends AppCompatActivity {
     int birdId;
     ProgressDialog progressDialog;
 
+    /*
+    construct the view on view create state
+    */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -250,7 +253,7 @@ public class EditDetails extends AppCompatActivity {
 
     /*
     when activity ends
-     */
+    */
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -261,7 +264,7 @@ public class EditDetails extends AppCompatActivity {
 
     /*
     Record audio using device microphone and store in file system
-     */
+    */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void recordSound(){
         if(recStatus){
@@ -321,7 +324,7 @@ public class EditDetails extends AppCompatActivity {
 
     /*
     Open device camera app to capture photos
-     */
+    */
     private void openCamera() {
         //save file using fileprovider code
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -340,7 +343,7 @@ public class EditDetails extends AppCompatActivity {
     /*
     create and return initial image file to store the image in the storage
     A new name for the file also will be generated here
-     */
+    */
     public File getImageFile(){
         String picName = "lb_"+new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
@@ -356,7 +359,7 @@ public class EditDetails extends AppCompatActivity {
 
     /*
     open file browse which has a filter only for images
-     */
+    */
     private void pickImageFromGallery() {
 
         File picDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
@@ -372,7 +375,7 @@ public class EditDetails extends AppCompatActivity {
 
     /*
     listen for permisdion results from the permission requests
-     */
+    */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -408,7 +411,7 @@ public class EditDetails extends AppCompatActivity {
     }
 
     /*
-        listen for results for sent requests
+    listen for results for sent requests
     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -435,7 +438,7 @@ public class EditDetails extends AppCompatActivity {
 
     /*
     copy files from browsed location to application directory
-     */
+    */
     public boolean copyFile(String from, String to) {
         try {
             File sd = Environment.getExternalStorageDirectory();
@@ -458,7 +461,7 @@ public class EditDetails extends AppCompatActivity {
 
     /*
     Background process to save changes to the database during update
-     */
+    */
     public class SaveData extends AsyncTask<String, Void, Boolean> {
 
         Uri uri;
@@ -543,6 +546,7 @@ public class EditDetails extends AppCompatActivity {
         }
     }
 
+    //transfer updated data back to the Detailed view using a intent
     public void sendDataBack(){
         if(editReqFrom.equals("details")){
             Intent intent=new Intent();
@@ -558,6 +562,7 @@ public class EditDetails extends AppCompatActivity {
         finish();
     }
 
+    //action to do on back button press inside edit details activity
     @Override
     public void onBackPressed() {
         Intent intent=new Intent();

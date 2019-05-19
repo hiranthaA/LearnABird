@@ -54,7 +54,7 @@ public class ListAdapter extends ArrayAdapter {
     /*
     Constructor
     Initialize class variables with parameters passed
-     */
+    */
     public ListAdapter(Context context, String[] names, String[] pics, String[] locations, int[] ids, String[] details,String[] sounds,MainActivity mainActivity) {
         super(context, R.layout.list_view_item);
         this.birdNames = names;
