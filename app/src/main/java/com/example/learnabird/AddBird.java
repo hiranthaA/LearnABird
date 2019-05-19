@@ -77,7 +77,7 @@ public class AddBird extends AppCompatActivity {
     ProgressDialog progressDialog;
 
     /*
-    Construct the view during the onCreate state of the view
+    Construct the view during the onCreate state of the Add Bird activity
     */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -100,8 +100,11 @@ public class AddBird extends AppCompatActivity {
         txtBirdName = findViewById(R.id.txt_name);
         txtBirdInfo = findViewById(R.id.txt_details);
 
-        //request for permission to access the device camera.
-        //use the camera if permission is granted
+
+        /*
+        request for permission to access the device camera.
+        use the camera if permission is granted
+         */
         btnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,7 +125,9 @@ public class AddBird extends AppCompatActivity {
 
         });
 
-        //open file browser for images
+        /*
+        open file browser for images
+         */
         btnImageBrowse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,7 +146,9 @@ public class AddBird extends AppCompatActivity {
             }
         });
 
-        //stop/play sound
+        /*
+        stop/play sound
+         */
         btnPlayStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,8 +179,10 @@ public class AddBird extends AppCompatActivity {
             }
         });
 
-        //record sound from mic of the device
-        //ask for permission if required
+        /*
+        record sound from mic of the device
+        ask for permission if required
+         */
         btnRecStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -194,7 +203,9 @@ public class AddBird extends AppCompatActivity {
             }
         });
 
-        //browse files for audio files
+        /*
+        browse files for audio files
+         */
         btnSoundBrowse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -208,7 +219,9 @@ public class AddBird extends AppCompatActivity {
             }
         });
 
-        //update the details with new data.
+        /*
+        update the details with new data.
+         */
         btnAddBird.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -224,7 +237,9 @@ public class AddBird extends AppCompatActivity {
 
     }
 
-    //when activity ends
+    /*
+    when activity ends
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -291,6 +306,9 @@ public class AddBird extends AppCompatActivity {
 
     }
 
+    /*
+    Use device camera app to take a photo and return it to the application
+     */
     private void openCamera() {
 
         //save file using fileprovider code
@@ -378,7 +396,7 @@ public class AddBird extends AppCompatActivity {
     }
 
     /*
-        listen for results for sent requests
+    listen for results for sent requests
     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -454,10 +472,9 @@ public class AddBird extends AppCompatActivity {
 
             InputStream inputStream;
             try {
-                //--------------------------------------------
                 inputStream = getContentResolver().openInputStream(uri);
                 Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-//            imgPreview.setImageBitmap(bitmap);
+                //imgPreview.setImageBitmap(bitmap);
                 String picName = strings[0];
                 image_file_name = picName;
                 //create a file to write bitmap data
@@ -474,8 +491,6 @@ public class AddBird extends AppCompatActivity {
                 fos.write(bitmapdata);
                 fos.flush();
                 fos.close();
-
-                //--------------------------------------------
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {

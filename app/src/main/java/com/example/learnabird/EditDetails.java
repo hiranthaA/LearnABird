@@ -107,7 +107,9 @@ public class EditDetails extends AppCompatActivity {
 
         mediaPlayer = new MediaPlayer();
 
-        //initialize with data from the intent
+        /*
+        initialize with data from the intent
+         */
         final Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             birdId = bundle.getInt("birdId");
@@ -128,8 +130,10 @@ public class EditDetails extends AppCompatActivity {
             imgEditPreview.setImageBitmap(bitmap);
         }
 
-        //request for permission to access the device camera.
-        //use the camera if permission is granted
+        /*
+        request for permission to access the device camera.
+        use the camera if permission is granted
+         */
         btnEditCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,7 +154,9 @@ public class EditDetails extends AppCompatActivity {
 
         });
 
-        //open file browser for images
+        /*
+        open file browser for images
+         */
         btnEditImageBrowse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -169,7 +175,9 @@ public class EditDetails extends AppCompatActivity {
             }
         });
 
-        //stop/play sound
+        /*
+        stop/play sound
+         */
         btnEditPlayStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -200,8 +208,10 @@ public class EditDetails extends AppCompatActivity {
             }
         });
 
-        //record sound from mic of the device
-        //ask for permission if required
+        /*
+        record sound from mic of the device
+        ask for permission if required
+         */
         btnEditRecStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -222,7 +232,9 @@ public class EditDetails extends AppCompatActivity {
             }
         });
 
-        //browse files for audio files
+        /*
+        browse files for audio files
+         */
         btnEditSoundBrowse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -236,7 +248,9 @@ public class EditDetails extends AppCompatActivity {
             }
         });
 
-        //update the details with new data.
+        /*
+        update the details with new data.
+         */
         btnUpdateBird.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -546,7 +560,9 @@ public class EditDetails extends AppCompatActivity {
         }
     }
 
-    //transfer updated data back to the Detailed view using a intent
+    /*
+    transfer updated data back to the Detailed view using a intent
+     */
     public void sendDataBack(){
         if(editReqFrom.equals("details")){
             Intent intent=new Intent();
@@ -562,7 +578,9 @@ public class EditDetails extends AppCompatActivity {
         finish();
     }
 
-    //action to do on back button press inside edit details activity
+    /*
+    action to do on back button press inside edit details activity
+     */
     @Override
     public void onBackPressed() {
         Intent intent=new Intent();
