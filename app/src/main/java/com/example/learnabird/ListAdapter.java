@@ -31,9 +31,13 @@ import java.util.Map;
 
 
 /*
-Reference: https://www.youtube.com/watch?v=q2XA0Pe2W04
-This ArrayAdapter base is referred from the above youtube video an d customized accordingly
-for the requirements of the application
+* ListAdapter
+*
+* Customize list items for the ListView in the main activity
+*
+* Reference: https://www.youtube.com/watch?v=q2XA0Pe2W04
+* This ArrayAdapter base is referred from the above youtube video an d customized accordingly
+  for the requirements of the application
 */
 public class ListAdapter extends ArrayAdapter {
 

@@ -43,6 +43,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Pattern;
 
+/*
+ * AddBird
+ * Provide the functionality of adding a new bird
+ */
 public class AddBird extends AppCompatActivity {
 
     private static final int PERMISSION_CODE_BROWSE = 1000;

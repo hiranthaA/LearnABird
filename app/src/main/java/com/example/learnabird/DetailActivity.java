@@ -24,6 +24,10 @@ import com.example.learnabird.AsyncTasks.AsyncLoadImage;
 import java.io.File;
 import java.io.IOException;
 
+/*
+* DetailActivity
+* Display a detailed view of the bird selected by the user
+*/
 public class DetailActivity extends AppCompatActivity {
 
     private ImageView iv_imgPreview;

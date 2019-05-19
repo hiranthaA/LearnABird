@@ -30,6 +30,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+/*
+* Main Activity
+* View List of Available birds
+*/
 public class MainActivity extends AppCompatActivity {
 
     private ListView lstBirds;
