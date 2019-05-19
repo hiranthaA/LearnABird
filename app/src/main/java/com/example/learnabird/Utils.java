@@ -4,7 +4,9 @@ import android.net.Uri;
 import android.widget.TextView;
 
 /*
-An utility class for common use
+* Utils
+* An utility class for common use
+* Contains common utility methods application use often
 */
 public class Utils {
 

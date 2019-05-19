@@ -31,11 +31,14 @@ import java.util.Map;
 
 
 /*
-Reference: https://www.youtube.com/watch?v=q2XA0Pe2W04
-This ArrayAdapter base is referred from the above youtube video an d customized accordingly
-for the requirements of the application
+* ListAdapter
+*
+* Customize list items for the ListView in the main activity
+*
+* Reference: https://www.youtube.com/watch?v=q2XA0Pe2W04
+* This ArrayAdapter base is referred from the above youtube video an d customized accordingly
+  for the requirements of the application
 */
-
 public class ListAdapter extends ArrayAdapter {
 
     private String[] birdNames;
@@ -173,7 +176,11 @@ public class ListAdapter extends ArrayAdapter {
         ImageButton mEdit;
     }
 
-    //resize loaded image before adding to list view for higher performance
+    /*
+    resize loaded image before adding to list view for higher performance
+    This method uses ScalingUtilities class, a utility to resize bitmap images
+    from https://github.com/maishoku/maishoku-android github repo
+     */
     public Bitmap resizeBitmap(String path){
         int DESIREDWIDTH = 100;
         int DESIREDHEIGHT = 100;
@@ -189,8 +196,10 @@ public class ListAdapter extends ArrayAdapter {
         return bitmap;
     }
 
-    //connect with sever to get the image from server
-    //background process
+    /*
+    connect with sever to get the image from server
+    background process
+     */
     public class AsyncLoadURLImage extends AsyncTask<Executable, Void, Bitmap> {
 
         ImageView target;

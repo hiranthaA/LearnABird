@@ -1,13 +1,10 @@
 package com.example.learnabird;
 
-import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -33,6 +30,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+/*
+* Main Activity
+* View List of Available birds
+*/
 public class MainActivity extends AppCompatActivity {
 
     private ListView lstBirds;
@@ -59,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     /*
-
-     */
+    Construct the view during the onCreate state of the Main Activity
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,8 +95,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //on click on list items, detailed view will be displayed
-        //data required will be pass as extra in the intent
+        /*
+        on click on list items, detailed view will be displayed
+        data required will be pass as extra in the intent
+         */
         lstBirds.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -110,7 +113,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //display "add bird" activity
+        /*
+        display "add bird" activity
+         */
         fabAddBirds.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

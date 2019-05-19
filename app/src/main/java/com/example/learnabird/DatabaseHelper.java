@@ -8,6 +8,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+/*
+* DatabaseHelper
+* Handle all the database related activities
+*/
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String COLUMN_NAME="name";

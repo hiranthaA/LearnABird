@@ -8,12 +8,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -21,7 +21,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,7 +29,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.learnabird.AsyncTasks.AsyncLoadImage;
 import com.nbsp.materialfilepicker.MaterialFilePicker;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
@@ -46,6 +44,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Pattern;
 
+/*
+* EditDetails
+* Provide functionality of editng the details of a bird selected by the user
+*/
 public class EditDetails extends AppCompatActivity {
 
     private static final int PERMISSION_CODE_BROWSE = 1000;
@@ -107,7 +109,9 @@ public class EditDetails extends AppCompatActivity {
 
         mediaPlayer = new MediaPlayer();
 
-        //initialize with data from the intent
+        /*
+        initialize with data from the intent
+         */
         final Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             birdId = bundle.getInt("birdId");
@@ -128,8 +132,10 @@ public class EditDetails extends AppCompatActivity {
             imgEditPreview.setImageBitmap(bitmap);
         }
 
-        //request for permission to access the device camera.
-        //use the camera if permission is granted
+        /*
+        request for permission to access the device camera.
+        use the camera if permission is granted
+         */
         btnEditCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,7 +156,9 @@ public class EditDetails extends AppCompatActivity {
 
         });
 
-        //open file browser for images
+        /*
+        open file browser for images
+         */
         btnEditImageBrowse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -169,7 +177,9 @@ public class EditDetails extends AppCompatActivity {
             }
         });
 
-        //stop/play sound
+        /*
+        stop/play sound
+         */
         btnEditPlayStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -200,8 +210,10 @@ public class EditDetails extends AppCompatActivity {
             }
         });
 
-        //record sound from mic of the device
-        //ask for permission if required
+        /*
+        record sound from mic of the device
+        ask for permission if required
+         */
         btnEditRecStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -222,7 +234,9 @@ public class EditDetails extends AppCompatActivity {
             }
         });
 
-        //browse files for audio files
+        /*
+        browse files for audio files
+         */
         btnEditSoundBrowse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -236,7 +250,9 @@ public class EditDetails extends AppCompatActivity {
             }
         });
 
-        //update the details with new data.
+        /*
+        update the details with new data.
+         */
         btnUpdateBird.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -546,7 +562,9 @@ public class EditDetails extends AppCompatActivity {
         }
     }
 
-    //transfer updated data back to the Detailed view using a intent
+    /*
+    transfer updated data back to the Detailed view using a intent
+     */
     public void sendDataBack(){
         if(editReqFrom.equals("details")){
             Intent intent=new Intent();
@@ -562,7 +580,9 @@ public class EditDetails extends AppCompatActivity {
         finish();
     }
 
-    //action to do on back button press inside edit details activity
+    /*
+    action to do on back button press inside edit details activity
+     */
     @Override
     public void onBackPressed() {
         Intent intent=new Intent();

@@ -15,6 +15,11 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/*
+* AsyncLoadImage
+* Load images from a provide url
+* this is a Background task
+*/
 public class AsyncLoadImage extends AsyncTask<String, Void, Bitmap> {
 
     ImageView target;

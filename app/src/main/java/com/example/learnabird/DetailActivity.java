@@ -24,6 +24,10 @@ import com.example.learnabird.AsyncTasks.AsyncLoadImage;
 import java.io.File;
 import java.io.IOException;
 
+/*
+* DetailActivity
+* Display a detailed view of the bird selected by the user
+*/
 public class DetailActivity extends AppCompatActivity {
 
     private ImageView iv_imgPreview;
@@ -99,6 +103,9 @@ public class DetailActivity extends AppCompatActivity {
         });
     }
 
+    /*
+    Show custom menu on the action bar
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if(location.equals("db")) {
@@ -107,6 +114,9 @@ public class DetailActivity extends AppCompatActivity {
         return true;
     }
 
+    /*
+    actions to execute on select custom menu items
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -163,6 +173,9 @@ public class DetailActivity extends AppCompatActivity {
         super.onPause();
     }
 
+    /*
+    receive results from activities and perform actions accordingly
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -188,6 +201,9 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
+    /*
+    On press back button within DetailActivity view
+     */
     @Override
     public void onBackPressed() {
         if(isViewChanged){
