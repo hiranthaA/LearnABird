@@ -1,5 +1,10 @@
 package com.example.learnabird.model;
 
+/*
+* Executable
+*
+* Model class use to pass data to background activity in ListAdapter
+ */
 public class Executable {
 
     private int pos;

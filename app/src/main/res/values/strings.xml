@@ -25,6 +25,4 @@
     <string name="content_disc_btn_record">Record Sound</string>
     <string name="content_disc_txt_addname">Name</string>
     <string name="content_disc_btn_delete">Delete</string>
-
-
 </resources>
