@@ -40,6 +40,9 @@ public class DetailActivity extends AppCompatActivity {
     private static final int EDIT_DETAILS_REQUEST_CODE=2000;
     private static final int DETAIL_ACTIVITY_REQUEST_CODE=3000;
 
+    /*
+    Construct the view on onCreate state
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

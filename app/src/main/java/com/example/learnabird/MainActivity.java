@@ -1,10 +1,13 @@
 package com.example.learnabird;
 
+import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -78,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         //load data from the server and the database
         loadData();
 
-        //add Icon to action bar
+        //Customize action bar
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         //getSupportActionBar().setIcon(R.drawable.ic_delete_white_24dp);
 

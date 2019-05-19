@@ -3,6 +3,9 @@ package com.example.learnabird;
 import android.net.Uri;
 import android.widget.TextView;
 
+/*
+An utility class for common use
+*/
 public class Utils {
 
     //validate textViews for null and empty

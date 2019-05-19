@@ -76,6 +76,9 @@ public class AddBird extends AppCompatActivity {
     String rec_file_name;
     ProgressDialog progressDialog;
 
+    /*
+    Construct the view during the onCreate state of the view
+    */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -229,7 +232,7 @@ public class AddBird extends AppCompatActivity {
 
     /*
     Record audio using device microphone and store in file system
-     */
+    */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void recordSound(){
         if(recStatus){
