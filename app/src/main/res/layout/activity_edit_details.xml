@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context=".AddBird">
+    tools:context=".EditDetails">
 
     <TextView
-        android:id="@+id/lbl_heading"
-        android:layout_width="241dp"
-        android:layout_height="32dp"
+        android:id="@+id/lbl_edit_heading"
+        android:layout_width="287dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
@@ -19,18 +19,18 @@
         android:layout_alignParentRight="true"
         android:layout_marginStart="13dp"
         android:layout_marginLeft="13dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="106dp"
-        android:layout_marginRight="106dp"
-        android:text="@string/lbl_add_new_bird"
+        android:layout_marginTop="19dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginRight="60dp"
+        android:text="@string/lbl_edit_bird"
         android:textSize="25sp"
-        tools:text="@string/lbl_add_new_bird" />
+        tools:text="@string/lbl_edit_bird" />
 
     <EditText
-        android:id="@+id/txt_name"
+        android:id="@+id/txt_edit_name"
         android:layout_width="269dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/lbl_heading"
+        android:layout_below="@+id/lbl_edit_heading"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginStart="17dp"
@@ -38,19 +38,18 @@
         android:layout_marginTop="23dp"
         android:layout_marginEnd="13dp"
         android:layout_marginRight="13dp"
-        android:layout_toEndOf="@+id/lbl_name"
-        android:layout_toRightOf="@+id/lbl_name"
+        android:layout_toEndOf="@+id/lbl_edit_name"
+        android:layout_toRightOf="@+id/lbl_edit_name"
         android:ems="10"
         android:hint="@string/hint_txt_name"
-        android:importantForAutofill="no"
         android:inputType="textPersonName"
-        tools:targetApi="o" />
+        android:importantForAutofill="no" tools:targetApi="o"/>
 
     <TextView
-        android:id="@+id/lbl_name"
+        android:id="@+id/lbl_edit_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/lbl_heading"
+        android:layout_below="@+id/lbl_edit_heading"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_marginStart="13dp"
@@ -62,9 +61,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="357dp"
-        android:layout_above="@+id/btn_addBird"
-        android:layout_below="@+id/txt_name"
-        android:layout_marginTop="18dp"
+        android:layout_above="@+id/btn_updateBird"
+        android:layout_below="@+id/txt_edit_name"
+        android:layout_marginTop="14dp"
         android:layout_marginBottom="16dp">
 
         <RelativeLayout
@@ -72,44 +71,43 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/lbl_details"
+                android:id="@+id/lbl_edit_details"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginStart="12dp"
-                android:layout_marginLeft="12dp"
+                android:layout_marginStart="13dp"
+                android:layout_marginLeft="13dp"
                 android:layout_marginTop="12dp"
                 android:text="@string/lbl_details"
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/txt_details"
-                android:layout_width="wrap_content"
+                android:id="@+id/txt_edit_details"
+                android:layout_width="272dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginStart="31dp"
-                android:layout_marginLeft="31dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="13dp"
-                android:layout_marginRight="13dp"
-                android:layout_toEndOf="@+id/lbl_details"
-                android:layout_toRightOf="@+id/lbl_details"
+                android:layout_marginStart="29dp"
+                android:layout_marginLeft="29dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="14dp"
+                android:layout_marginRight="14dp"
+                android:layout_toEndOf="@+id/lbl_edit_details"
+                android:layout_toRightOf="@+id/lbl_edit_details"
                 android:ems="10"
                 android:gravity="start|top"
                 android:hint="@string/hint_txt_details"
-                android:importantForAutofill="no"
                 android:inputType="textMultiLine"
-                tools:targetApi="o" />
+                android:importantForAutofill="no" tools:targetApi="o"/>
 
             <TextView
-                android:id="@+id/lbl_image"
+                android:id="@+id/lbl_edit_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txt_details"
+                android:layout_below="@+id/txt_edit_details"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_marginStart="13dp"
@@ -119,72 +117,75 @@
                 android:textSize="18sp" />
 
             <ImageView
-                android:id="@+id/img_bird"
+                android:id="@+id/img_edit_bird"
                 android:layout_width="208dp"
                 android:layout_height="161dp"
-                android:layout_below="@+id/txt_details"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
+                android:layout_below="@+id/txt_edit_details"
+                android:layout_marginStart="18dp"
+                android:layout_marginLeft="18dp"
                 android:layout_marginTop="23dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_toStartOf="@+id/btn_imageBrowse"
-                android:layout_toLeftOf="@+id/btn_imageBrowse"
-                android:layout_toEndOf="@+id/lbl_image"
-                android:layout_toRightOf="@+id/lbl_image"
+                android:layout_marginEnd="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="220dp"
+                android:layout_toStartOf="@+id/btn_edit_imageBrowse"
+                android:layout_toLeftOf="@+id/btn_edit_imageBrowse"
+                android:layout_toEndOf="@+id/lbl_edit_image"
+                android:layout_toRightOf="@+id/lbl_edit_image"
                 android:background="@color/imgBackground"
                 android:contentDescription="@string/content_disc_img_preview"
                 tools:srcCompat="@tools:sample/avatars[2]" />
 
             <TextView
-                android:id="@+id/lbl_sound"
+                android:id="@+id/lbl_edit_sound"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/img_bird"
+                android:layout_below="@+id/lbl_edit_image"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_marginStart="14dp"
                 android:layout_marginLeft="14dp"
-                android:layout_marginTop="36dp"
+                android:layout_marginTop="168dp"
                 android:text="@string/lbl_sound"
                 android:textSize="18sp" />
 
+
+
             <TextView
-                android:id="@+id/txt_rec_file_name"
-                android:layout_width="267dp"
+                android:id="@+id/txt_edit_rec_file_name"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/img_bird"
+                android:layout_below="@+id/lbl_edit_image"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginStart="18dp"
                 android:layout_marginLeft="18dp"
-                android:layout_marginTop="36dp"
+                android:layout_marginTop="168dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_toEndOf="@+id/lbl_sound"
-                android:layout_toRightOf="@+id/lbl_sound"
+                android:layout_toEndOf="@+id/lbl_edit_sound"
+                android:layout_toRightOf="@+id/lbl_edit_sound"
                 android:text="@string/lbl_sound_file_name"
                 android:textSize="18sp" />
 
             <ImageButton
-                android:id="@+id/btn_camera"
+                android:id="@+id/btn_edit_camera"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/btn_imageBrowse"
+                android:layout_below="@+id/btn_edit_imageBrowse"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="12dp"
-                android:layout_marginRight="12dp"
+                android:layout_marginEnd="13dp"
+                android:layout_marginRight="13dp"
                 android:backgroundTint="@color/colorPrimary"
                 android:contentDescription="@string/content_desc_imgcamera"
                 app:srcCompat="@android:drawable/ic_menu_camera" tools:targetApi="lollipop" />
 
             <ImageButton
-                android:id="@+id/btn_imageBrowse"
+                android:id="@+id/btn_edit_imageBrowse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txt_details"
+                android:layout_below="@+id/txt_edit_details"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="23dp"
@@ -195,55 +196,52 @@
                 app:srcCompat="@android:drawable/ic_menu_gallery" tools:targetApi="lollipop" />
 
             <ImageButton
-                android:id="@+id/btn_play"
+                android:id="@+id/btn_edit_play"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/lbl_sound"
+                android:layout_below="@+id/lbl_edit_sound"
                 android:layout_marginStart="14dp"
                 android:layout_marginLeft="14dp"
-                android:layout_marginTop="4dp"
-                android:layout_toEndOf="@+id/lbl_sound"
-                android:layout_toRightOf="@+id/lbl_sound"
+                android:layout_marginTop="3dp"
+                android:layout_toEndOf="@+id/lbl_edit_sound"
+                android:layout_toRightOf="@+id/lbl_edit_sound"
                 android:backgroundTint="@color/colorPrimary"
                 android:contentDescription="@string/content_disc_btn_play"
                 app:srcCompat="@android:drawable/ic_media_play" tools:targetApi="lollipop" />
 
             <ImageButton
-                android:id="@+id/btn_record"
+                android:id="@+id/btn_edit_record"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/lbl_sound"
-                android:layout_marginStart="2dp"
-                android:layout_marginLeft="2dp"
+                android:layout_below="@+id/lbl_edit_sound"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
                 android:layout_marginTop="4dp"
-                android:layout_marginBottom="100dp"
-                android:layout_toEndOf="@+id/btn_play"
-                android:layout_toRightOf="@+id/btn_play"
+                android:layout_toEndOf="@+id/btn_edit_play"
+                android:layout_toRightOf="@+id/btn_edit_play"
                 android:backgroundTint="@color/colorPrimary"
                 android:contentDescription="@string/content_disc_btn_record"
                 app:srcCompat="@android:drawable/ic_btn_speak_now" tools:targetApi="lollipop" />
 
             <ImageButton
-                android:id="@+id/btn_soundBrowse"
+                android:id="@+id/btn_edit_soundBrowse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/lbl_sound"
-                android:layout_marginStart="1dp"
-                android:layout_marginLeft="1dp"
+                android:layout_below="@+id/lbl_edit_sound"
+                android:layout_marginStart="3dp"
+                android:layout_marginLeft="3dp"
                 android:layout_marginTop="4dp"
-                android:layout_toEndOf="@+id/btn_record"
-                android:layout_toRightOf="@+id/btn_record"
+                android:layout_toEndOf="@+id/btn_edit_record"
+                android:layout_toRightOf="@+id/btn_edit_record"
                 android:backgroundTint="@color/colorPrimary"
                 android:contentDescription="@string/content_disc_btn_browse_sound"
-                app:srcCompat="@android:drawable/ic_menu_upload_you_tube" tools:targetApi="lollipop" />
-
+                app:srcCompat="@android:drawable/ic_menu_upload_you_tube" tools:targetApi="lollipop"/>
         </RelativeLayout>
+
     </ScrollView>
 
-
-
     <Button
-        android:id="@+id/btn_addBird"
+        android:id="@+id/btn_updateBird"
         android:layout_width="334dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -257,5 +255,6 @@
         android:layout_marginRight="13dp"
         android:layout_marginBottom="31dp"
         android:background="@color/colorPrimary"
-        android:text="@string/btn_text_add_bird" />
+        android:text="@string/btn_text_update_bird" />
+
 </RelativeLayout>

@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">Learn A Bird</string>
     <string name="lbl_bird_name">Bird Name</string>
-    <string name="lbl_bird_img_view">Bord Image</string>
+    <string name="lbl_bird_img_view">Bird Image</string>
     <string name="lbl_bird_details">Bird Details</string>
     <string name="btn_play_label">Play Sound</string>
     <string name="lbl_add_new_bird">Want to add a bird?</string>
+    <string name="lbl_edit_bird">Want to edit this bird?</string>
     <string name="hint_txt_name">name of the bird</string>
     <string name="hint_txt_details">details about the bird</string>
     <string name="lbl_name">Name</string>
@@ -14,6 +15,14 @@
     <string name="btn_text_browse">Browse</string>
     <string name="btn_text_camera">Camera</string>
     <string name="btn_text_add_bird">Add Bird</string>
+    <string name="btn_text_update_bird">Update Bird</string>
     <string name="lbl_sound_file_name">No sound selected.</string>
-
+    <string name="content_desc_imgcamera">Open Camera</string>
+    <string name="content_desc_imgbrowse">Open File Browse</string>
+    <string name="content_disc_img_preview">Preview Image</string>
+    <string name="content_disc_btn_play">Play Sound</string>
+    <string name="content_disc_btn_browse_sound">Browse Sound</string>
+    <string name="content_disc_btn_record">Record Sound</string>
+    <string name="content_disc_txt_addname">Name</string>
+    <string name="content_disc_btn_delete">Delete</string>
 </resources>
